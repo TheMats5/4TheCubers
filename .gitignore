@@ -9,6 +9,8 @@
 .idea
 ###< symfony/framework-bundle ###
 
+.vagrant
+
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
