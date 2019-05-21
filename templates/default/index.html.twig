@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+    </head>
+    <body>
+
+
+    <h1 class="title">StopWatch</h1>
+    <h1 id="timerLabel">00:00:00</h1>
+
+    </body>
+
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script >
+
+        var startBtn = document.getElementById("startBtn");
+        var timerLabel = document.getElementById('timerLabel');
+        var time = 0;
+        var running = false;
+        var timerIsEnabled = false;
+        var alltimes = [];
+        function start(){
+            running = true;
+            timerIsEnabled = false;
+            timer();
+        }
+        function stop(){
+            running = false;
+            timer();
+        }
+        function reset(){
+            status = 0;
+            time = 0;
+            timerLabel.innerHTML = '00:00:00';
+        }
+        function timer(){
+            if (running === true) {
+                setTimeout(function() {
+                    time++;
+                    var min = Math.floor(time/100/60);
+                    var sec = Math.floor(time/100);
+                    var mSec = time % 100;
+                    if (min < 10) min = "0" + min;
+                    if (sec >= 60) sec = sec % 60;
+                    if (sec < 10) sec = "0" + sec;
+                    if (mSec < 10) mSec = "0" + mSec;
+                    timerLabel.innerHTML = min + ":" + sec + ":" + mSec;
+                    timer();
+                }, 10);
+            }
+        }
+
+        var pressedTime = 0; // pressing time
+        var pressed = 0; // key is pushed or not ?
+
+        var timer2 = setInterval(calculate, 10); // calculate time
+
+
+        $(document).on('keydown', function(e) {
+            if(e.keyCode === 13){
+            }
+            if(e.keyCode === 32 && running === false) {
+                $("#timerLabel").removeClass("ready");
+                $("#timerLabel").addClass("not-ready");
+                pressed = 1;
+                if(pressedTime>100){
+                    timerIsEnabled = true;
+                    $("#timerLabel").removeClass("not-ready");
+                    $("#timerLabel").addClass("ready");
+                    alltimes.push(time);
+                   reset();
+                }
+            } else if(e.keyCode === 32 && running === true){
+                console.log('stop');
+                stop();
+            }
+        }).on('keyup', function (e) {
+            if(e.keyCode === 32) {
+                $("#timerLabel").removeClass("not-ready");
+                pressed = 0;
+                console.log(pressedTime);
+                if(running === false && timerIsEnabled === true){
+                    console.log('start');
+                    start();
+                }
+                pressedTime = 0
+            }
+        });
+
+        function calculate() { // increase pressing time if key is pressed !!
+            if (pressed === 1) {
+                pressedTime += 1;
+            }
+        }
+</script>
+{% endblock %}

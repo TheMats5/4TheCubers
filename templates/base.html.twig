@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}4TheCubers{% endblock %}</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+<div class="leftbar">
+    <div class="square-left blue-square"></div>
+    <div class="square-left blue-square"></div>
+    <div class="square-left blue-square"></div>
+    <div class="square-left yellow-square"></div>
+    <div class="square-left yellow-square"></div>
+    <div class="square-left yellow-square"></div>
+    <div class="square-left red-square"></div>
+    <div class="square-left red-square"></div>
+    <div class="square9-left red-square square-left"></div>
+</div>
+<div class="rightbar">
+    <div class="square-right blue-square"></div>
+    <div class="square-right blue-square"></div>
+    <div class="square-right blue-square"></div>
+    <div class="square-right yellow-square"></div>
+    <div class="square-right yellow-square"></div>
+    <div class="square-right yellow-square"></div>
+    <div class="square-right red-square"></div>
+    <div class="square-right red-square"></div>
+    <div class="square-right red-square"></div>
+</div>
+<div class="container login-page-container">
+    {% block body %}{% endblock %}
+</div>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,138 @@
+.login-logo {
+  width: 522px;
+  height: 216px;
+  margin-bottom: 20px;
+}
+
+.login-page-container {
+  width: 522px;
+  margin-top: 100px;
+}
+
+
+.login-input {
+  width: 458px;
+  height: 60px;
+  border-radius: 15px;
+  color: black;
+  border: none;
+}
+
+.login-input::placeholder {
+  font-size: 20px;
+  font-family: Roboto, sans-serif;
+  opacity: 0.3;
+  color: black;
+  margin-left: 15px !important;
+}
+
+.sign-in-button {
+  background-color: #1947A4;
+  font-size: 30px;
+  font-family: Roboto, sans-serif;
+  width: 458px;
+  height: 60px;
+  border: none;
+  border-radius: 15px;
+  margin-left: 12px;
+}
+
+.login-form {
+  text-align: center;
+  margin-top: 45vh;
+  height: 458px;
+}
+
+.arrow-up-login {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  margin-left: 55px;
+  border-bottom: 15px solid white;
+}
+.arrow-up-register {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  margin-left: 415px;
+  border-bottom: 15px solid white;
+}
+
+.login-tags{
+  width: 458px;
+  color: black;
+  font-family: Roboto, sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+  margin-left:25px;
+  margin-right: 0px !important;
+}
+
+.login-tags a{
+  color: black;
+  opacity: 0.4;
+}
+
+.sign-in-tag{
+}
+
+.leftbar {
+  height: 100%;
+  width: 130px;
+  position: fixed;
+  z-index: 1;
+  top: -60px;
+  left: 0;
+  overflow-x: hidden;
+  display: table;
+  border-right: 10px black solid;
+}
+
+.rightbar{
+  height: 120%;
+  width: 130px;
+  position: fixed;
+  z-index: 2 !important;
+  top: -65px;
+  right: 0;
+  background-color: #111;
+  overflow: hidden;
+  border-left: 10px black solid;
+}
+
+.square-left{
+  width: 130px;
+  height: 130px;
+  border-bottom: black solid 10px;
+}
+
+.square-right{
+  width: 130px;
+  height: 130px;
+  border-bottom: black solid 10px;
+}
+
+.blue-square{
+  background-color: #1947A4;
+}
+
+.red-square{
+  background-color: #A80000;
+}
+
+.yellow-square{
+  background-color: #F2DA00;
+}
+.register-link{
+  color: #1947A4;
+}
+
+.forgot-link, .register-p{
+  font-family: Roboto, sans-serif;
+  text-align: left;
+  margin-left:25px;
+  font-size: 20px;
+  font-weight: bold;
+}
