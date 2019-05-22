@@ -18,6 +18,19 @@
 {{ parent() }}
 <script >
 
+    function sendData(time) {
+        $.ajax({
+            url: '/',
+            type: 'POST',
+            data: time,
+            success: function () {
+                alert('suc');
+            },
+            error: function (error) {
+                alert('error');
+            }
+        });
+    }
         var startBtn = document.getElementById("startBtn");
         var timerLabel = document.getElementById('timerLabel');
         var time = 0;
@@ -78,6 +91,7 @@
             } else if(e.keyCode === 32 && running === true){
                 console.log('stop');
                 stop();
+                sendData(time);
             }
         }).on('keyup', function (e) {
             if(e.keyCode === 32) {
