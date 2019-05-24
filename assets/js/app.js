@@ -13,7 +13,7 @@ require('bootstrap');
 require('../css/app.css');
 require('../css/global.scss');
 require('@fortawesome/fontawesome-free');
-
+window.Scrambo = require('scrambo');
 window.jQuery = require('jquery');
 window.$ = window.jQuery;
 

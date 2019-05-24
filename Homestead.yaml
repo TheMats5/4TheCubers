@@ -7,7 +7,7 @@ keys:
     - ~/.ssh/id_rsa
 folders:
     -
-        map: 'C:\Users\matsv\Desktop\4TheCubers'
+        map: 'C:\Users\Mats\Desktop\4TheCubers'
         to: /home/vagrant/code
 sites:
     -

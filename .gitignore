@@ -10,7 +10,7 @@
 ###< symfony/framework-bundle ###
 
 .vagrant
-
+Homestead.yaml
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
