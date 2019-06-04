@@ -8,21 +8,25 @@ security:
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
+        my_provider:
+            entity:
+                class: App\Entity\User
+                property: _username
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            pattern: ^/
-            user_checker: security.user_checker
-            form_login:
-                provider: fos_userbundle
-                csrf_token_generator: security.csrf.token_manager
-            logout:       true
             anonymous:    true
+            form_login:
+                login_path: app_login
+                check_path: app_login
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
+            logout:
+                path: logout
 
 
             # activate different ways to authenticate

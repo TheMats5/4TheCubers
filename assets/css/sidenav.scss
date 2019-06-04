@@ -1,0 +1,61 @@
+.sidenav {
+  height: 100%;
+  width: 226px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: $darker-blue;
+  overflow-x: hidden;
+  padding-top: 20px;
+  & .active{
+    background-image: linear-gradient(265deg, rgba(4, 3, 23, 0.3), rgba(22, 181, 221, 0.3));
+  }
+  & a{
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;width: 217px;
+    height: 52px;
+    color: $white;
+    display: block;
+  }
+  & .nav-highlight{
+    width:8px;
+    height:52px;
+    background-color: $lightblue;
+  }
+  & .profile-picture{
+    width: 103px;
+    height: 103px;
+    background-color: #2455ba;
+    margin: 32px 0px 10px 57px;
+    border-radius: 50%;
+  }
+  & .profile-name{
+    width: 61px;
+    height: 12px;
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 0.9;
+    text-align: left;
+    color: $white;
+    margin-bottom: 34px;
+    margin-left: 78px;
+ }
+}
+.nav-highlight{
+  width: 8px;
+  color: $lightblue;
+}
+.nav-not-highlight{
+  width: 8px;
+
+}
+.nav-icon{
+  width: auto;
+  height: 30px;
+  margin-right: 18px;
+}
+.home-icon{
+  margin-top: 2px;
+}

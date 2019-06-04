@@ -2,83 +2,95 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="user")
+ * @UniqueEntity(fields="email", message="There is already an account with this email")
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
-class User extends BaseUser
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    protected $id;
+    private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $avatar;
+    private $username;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Solve", mappedBy="user")
+     * @ORM\Column(type="string", length=255)
      */
-    private $solves;
+    private $password;
 
-    public function __construct()
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $email;
+
+    public function getId(): ?int
     {
-        parent::__construct();
-        $this->times = new ArrayCollection();
-        $this->time = new ArrayCollection();
-        $this->solves = new ArrayCollection();
+        return $this->id;
     }
 
-
-    public function getAvatar(): ?string
+    public function getUsername(): ?string
     {
-        return $this->avatar;
+        return $this->username;
     }
 
-    public function setAvatar(string $avatar): self
+    public function setUsername(string $username): self
     {
-        $this->avatar = $avatar;
+        $this->username = $username;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Solve[]
-     */
-    public function getSolves(): Collection
+    public function getPassword(): ?string
     {
-        return $this->solves;
+        return $this->password;
     }
 
-    public function addsolve(Solve $solve): self
+    public function setPassword(string $password): self
     {
-        if (!$this->solves->contains($solve)) {
-            $this->solves[] = $solve;
-            $solve->setUser($this);
-        }
+        $this->password = $password;
 
         return $this;
     }
 
-    public function removesolve(Solve $solve): self
+    public function getEmail(): ?string
     {
-        if ($this->solves->contains($solve)) {
-            $this->solves->removeElement($solve);
-            // set the owning side to null (unless already changed)
-            if ($solve->getUser() === $this) {
-                $solve->setUser(null);
-            }
-        }
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
+
+    public function getRoles()
+    {
+        return[
+            'ROLE_USER'
+        ];
+    }
+
+    public function getSalt()
+    {
+        
+    }
+
+    public function eraseCredentials()
+    {
+        
+    }
+
 }

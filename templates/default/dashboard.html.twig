@@ -1,0 +1,464 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DefaultController!{% endblock %}
+
+{% block body %}
+    </head>
+    <body>
+    <div class="sidenav">
+        <div class="profile-picture">
+
+        </div>
+        <div class="profile-name">TheMats</div>
+        <div class="d-flex">
+            <div class="nav-highlight"></div>
+            <a class="d-flex active" href="#dashboard"><img class="nav-icon home-icon"
+                                                            src="{{ asset('build/images/home.png') }}" alt="">Dashboard</a>
+        </div>
+        <div class="d-flex">
+            <div class="nav-not-highlight"></div>
+            <a href="#Statistics"><img class="nav-icon" src="{{ asset('build/images/stats.png') }}"
+                                       alt="">Statistics</a>
+        </div>
+        <div class="d-flex">
+            <div class="nav-not-highlight"></div>
+            <a href="#Friends"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends</a>
+        </div>
+        <div class="d-flex">
+            <div class="nav-not-highlight"></div>
+            <a href="#Settings"><img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Settings</a>
+        </div>
+
+    </div>
+    <div class="d-flex justify-content-between top">
+        <h2>Dashboard</h2>
+        <h1 class="title">4TheCuber.<span class="title-span">net</span></h1>
+    </div>
+    <div class="main">
+        <div class="d-flex main-top">
+            <div>
+
+                <select class="selectpicker select-cube-type" data-style="custom-button">
+                    <optgroup label="regular">
+                        <option value="222">2x2x2</option>
+                        <option selected="selected" value="333">3x3x3</option>
+                        <option value="444">4x4x4</option>
+                        <option value="555">5x5x5</option>
+                        <option value="666">6x6x6</option>
+                        <option value="777">7x7x7</option>
+                    </optgroup>
+                    <optgroup label="blindfolded">
+                        <option value="333bf">3x3x3</option>
+                        <option value="444bf">4x4x4</option>
+                        <option value="555bf">5x5x5</option>
+                    </optgroup>
+                    <optgroup label="other">
+                        <option value="minx">Megaminx</option>
+                        <option value="pyram">Pyraminx</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div class="divider mt-2"></div>
+
+            <div>
+                <h1 class="scramble"> L2 U2 L2 R2 D B2 R2 D' L2 D U F' D2 L' R' U' F L' B' L F</h1>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="main-left">
+                <div class="d-flex justify-content-between">
+                    <div class="top-left">
+                        <div class="general-title">
+                            <img class="world-icon" src="{{ asset('build/images/world.png') }}" alt="">
+                            <h1 class="ml-4 mt-4">General stats</h1>
+                        </div>
+                        <div class="general-stats d-flex">
+                            <div class="d-flex">
+                                <h2>52</h2>
+                                <h3>total solves</h3>
+                            </div>
+                            <div class="d-flex">
+                                <h2>7</h2>
+                                <h3>+2sec</h3>
+                            </div>
+                            <div class="d-flex">
+                                <h2>5</h2>
+                                <h3 class="dnf">DNF</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top-right">
+                        <div class="friends-title">
+                            <img class="friends-icon" src="{{ asset('build/images/friends-blue.png') }}" alt="">
+                            <h1 class="ml-4 mt-4">Online friends</h1>
+                        </div>
+                        <div class="dashboard-friends d-flex">
+                            <div class="dashboard-friend">
+                                <div class="friend-avatar"></div>
+                                <div class="dot"></div>
+                                <div class="friend-name">friend1</div>
+                            </div>
+                            <div class="dashboard-friend">
+                                <div class="friend-avatar"></div>
+                                <div class="dot"></div>
+                                <div class="friend-name">friend2</div>
+                            </div>
+                            <div class="dashboard-friend">
+                                <div class="friend-avatar"></div>
+                                <div class="dot"></div>
+                                <div class="friend-name">friend3</div>
+                            </div>
+                            <div class="dashboard-friend">
+                                <div class="friend-avatar"></div>
+                                <div class="dot"></div>
+                                <div class="friend-name">friend4</div>
+                            </div>
+                            <h3 class="more-friends">More</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="left-bottom">
+                    <div class="timer">
+                        <div class="timer-title d-flex justify-content-between">
+                            <h2>minutes</h2>
+                            <h2 style="padding-left:50px;">seconds</h2>
+                            <h2>milliseconds</h2>
+                        </div>
+                        <h1 id="timerLabel">00<span class="">:</span>00<span class="">:</span>00</h1>
+                        <div class="d-flex">
+                            <button class="first-button timer-buttons add2seconds">+2</button>
+                            <button class="timer-buttons did-not-finish">DNF</button>
+                            <button class="timer-buttons delete-time">Delete</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="aside-right">
+                <div class="right-top">
+                    <div class="cube-title">
+                        <img class="cube-icon" src="{{ asset('build/images/cube.png') }}" alt="">
+                        <h1 class="ml-4 mt-4">Latest solves</h1>
+                    </div>
+                    <div class="my-table">
+                        <div class="column column1">
+                            <div class="table-row d-flex">
+                                <div class="table-head table-item">time</div>
+                                <div class="table-head table-item">type</div>
+                            </div>
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+                        </div>
+                        <div class="column column2">
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+                            <div class="table-row d-flex">
+                                <div class="table-item">aaa</div>
+                                <div class="table-item">bbb</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="right-bottom">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {#    <h1 class="title">StopWatch</h1>#}
+    {#    <h1 id="timerLabel">00:00:00</h1>#}
+    {#    <div class="d-flex">#}
+    {#        <button class="timer-buttons add2seconds">+2</button>#}
+    {#        <button class="timer-buttons did-not-finish">DNF</button>#}
+    {#        <button class="timer-buttons delete-time">Delete</button>#}
+    {#    </div>#}
+    {#    <select class="selectpicker select-cube-type">#}
+    {#        <optgroup label="regular">#}
+    {#            <option value="222">2x2x2</option>#}
+    {#            <option selected="selected" value="333">3x3x3</option>#}
+    {#            <option value="444">4x4x4</option>#}
+    {#            <option value="555">5x5x5</option>#}
+    {#            <option value="666">6x6x6</option>#}
+    {#            <option value="777">7x7x7</option>#}
+    {#        </optgroup>#}
+    {#        <optgroup label="blindfolded">#}
+    {#            <option value="333bf">3x3x3</option>#}
+    {#            <option value="444bf">4x4x4</option>#}
+    {#            <option value="555bf">5x5x5</option>#}
+    {#        </optgroup>#}
+    {#        <optgroup label="other">#}
+    {#            <option value="minx">Megaminx</option>#}
+    {#            <option value="pyram">Pyraminx</option>#}
+    {#        </optgroup>#}
+
+    {#    </select>#}
+    {#    <table>#}
+    {#        <tr>#}
+    {#            <td>#}
+    {#            </td>#}
+    {#            <td>#}
+    {#                <select id='searchByType'>#}
+    {#                    <option value=''>-- Select type --</option>#}
+    {#                    <optgroup label="regular">#}
+    {#                        <option value="222">2x2x2</option>#}
+    {#                        <option value="333">3x3x3</option>#}
+    {#                        <option value="444">4x4x4</option>#}
+    {#                        <option value="555">5x5x5</option>#}
+    {#                        <option value="666">6x6x6</option>#}
+    {#                        <option value="777">7x7x7</option>#}
+    {#                    </optgroup>#}
+    {#                    <optgroup label="blindfolded">#}
+    {#                        <option value="333">3x3x3</option>#}
+    {#                        <option value="444">4x4x4</option>#}
+    {#                        <option value="555">5x5x5</option>#}
+    {#                    </optgroup>#}
+    {#                    <optgroup label="other">#}
+    {#                        <option value="minx">Megaminx</option>#}
+    {#                        <option value="pyram">Pyraminx</option>#}
+    {#                    </optgroup>#}
+    {#                </select>#}
+    {#            </td>#}
+    {#        </tr>#}
+    {#    </table>#}
+
+    {#    <table id="solvesTable" class="table table-sm table-striped table-bordered">#}
+    {#        <thead>#}
+    {#        <tr>#}
+    {#            <th>#}
+    {#                time#}
+    {#            </th>#}
+    {#            <th>#}
+    {#                type#}
+    {#            </th>#}
+    {#        </tr>#}
+    {#        </thead>#}
+    {#        <tbody>#}
+
+    {#        </tbody>#}
+    {#    </table>#}
+    </body>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+
+            let cubeType = $('.select-cube-type').val();
+            $('.select-cube-type').change(function () {
+                cubeType = $(this).val();
+            })
+            //console.log(cubeType);
+
+            $("#solvesTable").DataTable({
+                "dom": '<"top"i>rt<"bottom"flp><"clear">',
+                "bInfo": false,
+                "processing": true,
+                'serverSide': true,
+                'serverMethod': 'post',
+                'searching': false,
+                "ajax": {
+                    "url": "/ajax-get-solves",
+                    "dataSrc": "",
+                    'data': function (data) {
+                        // Read values
+                        let type = $('#searchByType').val();
+
+                        // Append to data
+                        data.searchByType = type;
+                    }
+                },
+                "columns": [
+                    {"data": "time"},
+                    {"data": "type"}
+                ]
+            });
+            $('#searchByType').change(function () {
+                $("#solvesTable").DataTable().draw();
+            });
+
+            function sendData(time) {
+                $.ajax({
+                    type: "POST",
+                    url: '/ajax-save-solve',
+                    dataType: "json",
+                    data: {
+                        time: time,
+                        cubeType: cubeType,
+                    },
+                    success: function (data) {
+                        console.log(data)
+
+                    }
+                });
+            }
+
+            $(".timer-buttons").hide();
+            var timerLabel = document.getElementById('timerLabel');
+            var time = 0;
+            var running = false;
+            var timerIsEnabled = false;
+            let clicked = false;
+            var done = false
+            var firstRound = true;
+
+            function start() {
+                running = true;
+                timerIsEnabled = false;
+                timer();
+            }
+
+            function stop() {
+                running = false;
+                timer();
+            }
+
+            function reset() {
+                status = 0;
+                time = 0;
+                timerLabel.innerHTML = '00:00:00';
+            }
+
+            function timer() {
+                if (running === true) {
+                    setTimeout(function () {
+                        time++;
+                        var min = Math.floor(time / 100 / 60);
+                        var sec = Math.floor(time / 100);
+                        var mSec = time % 100;
+                        if (min < 10) min = "0" + min;
+                        if (sec >= 60) sec = sec % 60;
+                        if (sec < 10) sec = "0" + sec;
+                        if (mSec < 10) mSec = "0" + mSec;
+                        timerLabel.innerHTML = min + ":" + sec + ":" + mSec;
+                        timer();
+                    }, 10);
+                }
+            }
+
+            var pressedTime = 0; // pressing time
+            var pressed = 0; // key is pushed or not ?
+
+            var timer2 = setInterval(calculate, 10); // calculate time
+
+
+            $(document).on('keydown', function (e) {
+                if (e.keyCode === 32 && running === false) {
+                    //runs when the spacebar is pressed down and the timer is not running
+                    notRunningKeyDown();
+                } else if (e.keyCode === 32 && running === true) {
+                    //runs when the spacebar is pressed down but the timer IS running
+                    isRunningKeyDown();
+                }
+            }).on('keyup', function (e) {
+                if (e.keyCode === 32) {
+                    //runs when the spacebar is lifted
+                    keyUp()
+                }
+            });
+
+            function calculate() { // increase pressing time if key is pressed !!
+                if (pressed === 1) {
+                    pressedTime += 1;
+                }
+            }
+
+            function notRunningKeyDown() {
+                // var threebythree = new Scrambo(); // Defaults to 3x3
+                // console.log(threebythree.get(5)); // Returns 5 scrambles
+                $("#timerLabel").removeClass("ready");
+                $("#timerLabel").addClass("not-ready");
+                pressed = 1;
+                if (!done && !firstRound && !clicked) {
+                    sendData(time);
+                    addRow(time, cubeType);
+                    done = true;
+                }
+                if (pressedTime > 100) {
+                    timerIsEnabled = true;
+                    $("#timerLabel").removeClass("not-ready");
+                    $("#timerLabel").addClass("ready");
+                    reset();
+                }
+            }
+
+            function isRunningKeyDown() {
+                //console.log('stop');
+                stop();
+                firstRound = false;
+                $(".timer-buttons").show();
+
+                $(".add2seconds").one("click", function () {
+                    if (clicked === false) {
+                        time = time + 200;
+                        console.log(time);
+                        clicked = true
+                        addRow(time, cubeType);
+                        sendData(time);
+                    }
+                })
+                $(".did-not-finish").one("click", function () {
+                    if (clicked === false) {
+                        time = 0;
+                        console.log(time);
+                        addRow(time, cubeType);
+                        sendData(time);
+                        clicked = true;
+                    }
+                })
+                $(".delete-time").one("click", function () {
+                    if (clicked === false) {
+                        reset();
+                        clicked = true;
+                    }
+                })
+            }
+
+            function keyUp() {
+                $("#timerLabel").removeClass("not-ready");
+                pressed = 0;
+                // console.log(pressedTime);
+                if (running === false && timerIsEnabled === true) {
+                    //console.log('start');
+                    done = false;
+                    $(".timer-buttons").hide();
+                    clicked = false;
+                    start();
+                }
+                pressedTime = 0
+            }
+
+            function addRow(time, type) {
+                $("#solvesTable").DataTable().row.add(
+                    {
+                        "time": time,
+                        "type": type
+                    }
+                ).draw(false);
+            }
+        })
+    </script>
+{% endblock %}

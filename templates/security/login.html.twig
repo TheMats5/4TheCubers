@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}4TheCubers{% endblock %}
+
+{% block body %}
+    <div class = "title"><h1>4TheCubers.<span class ="title-span">net</span></h1></div>
+
+    <div class="container">
+        <div class="box"></div>
+        <div class="container-forms">
+            <div class="container-info">
+                <div class="info-item">
+                    <div class="table">
+                        <div class="table-cell">
+                            <p>Have an account?</p>
+                            <div class="btn">Log in</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="table">
+                        <div class="table-cell">
+                            <p>Don't have an account?</p>
+                            <div class="btn">Sign up</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-form">
+                <div class="form-item log-in">
+                    <div class="table">
+                        <div class="table-cell">
+                                {% if error %}
+                                    <div class="form-errors login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                                {% endif %}
+                            <form action=" {{ path('app_login') }}" method="POST">
+                                <input type="hidden" name="_csrf_token"
+                                       value="{{ csrf_token('authenticate') }}"
+                                >
+                                <input type="text" name="username" value = '{{ last_username }}' placeholder="Username">
+                                <input type="Password" name="password" placeholder="Password">
+
+                                <button type="submit" class="btn">Log in</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-item sign-up">
+                    <div class="table">
+                        <div class="table-cell">
+                            {{ form_start(registrationForm, {'action': path('register'), 'method': 'POST'}) }}
+                            <div class="form-errors">
+                                {{ form_errors(registrationForm) }}
+                            </div>
+                                {{ form_widget(registrationForm.email) }}
+                                {{ form_widget(registrationForm.username) }}
+                                {{ form_widget(registrationForm.plainPassword.first) }}
+                                {{ form_widget(registrationForm.plainPassword.second) }}
+                                <button class="btn">Sign up</button>
+                            <input type="hidden" name="_csrf_token"
+                                   value="{{ csrf_token('authenticate') }}"
+                            >
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        let idk = '{{ form_errors(registrationForm) }}';
+        console.log(idk);
+        if('' !== idk){
+            $(".container").toggleClass("log-in");
+        }
+        $(".info-item .btn").click(function(){
+            $(".container").toggleClass("log-in");
+        });
+        $(".container-form .btn").click(function(){
+            $(".container").addClass("active");
+        });
+    </script>
+{% endblock %}

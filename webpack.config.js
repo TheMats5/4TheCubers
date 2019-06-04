@@ -18,8 +18,13 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('backgroundImage', './assets/images/login_background_image.png')
-    .addEntry('backgroundImage1366x768', './assets/images/web_1366x768.png')
+    .addEntry('friends', './assets/images/friends.png')
+    .addEntry('home', './assets/images/home.png')
+    .addEntry('settings', './assets/images/settings.png')
+    .addEntry('world', './assets/images/world.png')
+    .addEntry('cube', './assets/images/cube.png')
+    .addEntry('friends-blue', './assets/images/friends-blue.png')
+    .addEntry('stats', './assets/images/stats.png')
     .addEntry('logo', './assets/images/logo.png')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')

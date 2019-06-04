@@ -1,40 +1,59 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}4TheCubers{% endblock %}</title>
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
-    </head>
-    <body>
-    <div class="leftbar">
-        <div class="square-left blue-square"></div>
-        <div class="square-left blue-square"></div>
-        <div class="square-left blue-square"></div>
-        <div class="square-left yellow-square"></div>
-        <div class="square-left yellow-square"></div>
-        <div class="square-left yellow-square"></div>
-        <div class="square-left red-square"></div>
-        <div class="square-left red-square"></div>
-        <div class="square9-left red-square square-left"></div>
+{% extends 'base.html.twig' %}
+
+{% block title %}4TheCubers{% endblock %}
+
+{% block body %}
+    <div class = "title"><h1>4TheCubers.<span class ="title-span">net</span></h1></div>
+
+    <div class="container">
+        {% if error %}
+            <span class="error">{{ error.messageKey }}</span>
+        {% endif %}
+        <a class="btn btn-danger" href="{{ path('logout') }}">logout</a>
+        <div class="box"></div>
+        <div class="container-forms">
+            <div class="container-info">
+                <div class="info-item">
+                    <div class="table">
+                        <div class="table-cell">
+                            <p>Have an account?</p>
+                            <div class="btn">Log in</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="table">
+                        <div class="table-cell">
+                            <p>Don't have an account?</p>
+                            <div class="btn">Sign up</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-form">
+                <div class="form-item log-in">
+                    <div class="table">
+                        <div class="table-cell">
+                            <form action="{{ path('login') }}" method="POST">
+                                <input type="text" name="_username" value = '{{ lastUsername }}' placeholder="Username">
+                                <input type="Password" name="_password" placeholder="Password">
+                                <button type="submit" class="btn">Log in</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-item sign-up">
+                    <div class="table">
+                        <div class="table-cell">
+                            <input type="text" name="Email" placeholder="Email">
+                            <input type="text" name="Username" placeholder="Username">
+                            <input type="Password" name="Password" placeholder="Password">
+                            <input type="Password" name="Repeat-password" placeholder="Repeat-password">
+                            <a href="" class="btn">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="rightbar">
-        <div class="square-right blue-square"></div>
-        <div class="square-right blue-square"></div>
-        <div class="square-right blue-square"></div>
-        <div class="square-right yellow-square"></div>
-        <div class="square-right yellow-square"></div>
-        <div class="square-right yellow-square"></div>
-        <div class="square-right red-square"></div>
-        <div class="square-right red-square"></div>
-        <div class="square-right red-square"></div>
-    </div>
-    <div class="container login-page-container">
-        {% block body %}{% endblock %}
-    </div>
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-    </body>
-</html>
+{% endblock %}

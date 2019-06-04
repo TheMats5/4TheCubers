@@ -1,8 +1,12 @@
 @import "../css/bootstrap";
 @import "../css/layout";
-@import "../css/register";
+@import "../css/dashboard";
 @import "../css/login";
 @import "../css/timer";
-body{
+@import "../css/sidenav";
+@import "bootstrap-select";
+@import "fontawesome";
+#solvesTable_processing{
   background-color: #C1DBE3;
+  border: none;
 }

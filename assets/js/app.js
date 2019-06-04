@@ -12,15 +12,21 @@
 require('bootstrap');
 require('../css/app.css');
 require('../css/global.scss');
+require('datatables.net');
+require('datatables.net-bs4');
+require('datatables.net-buttons-bs4');
 require('@fortawesome/fontawesome-free');
+require('jquery-columnizer');
 window.Scrambo = require('scrambo');
 window.jQuery = require('jquery');
 window.$ = window.jQuery;
 
+require('bootstrap-select');
+window.bootstrapSelect = require('./bootstrap-select');
 const $ = require('jquery');
-
 
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
+
 });
 

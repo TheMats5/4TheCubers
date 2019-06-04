@@ -29,7 +29,7 @@ class SolveRepository extends ServiceEntityRepository
         return new Response('ok', 200);
     }
 
-    public function addSolve(int $time, User $user)
+    public function addSolve(int $time,string $cubeType, User $user)
     {
         /** @var Solve $solve */
         $solve = new Solve;
@@ -37,9 +37,41 @@ class SolveRepository extends ServiceEntityRepository
         if(0 !== $time){
             $solve->setTime($time);
         }
+        $solve->setType($cubeType);
         $solve->setUser($user);
         $this->saveSolve($solve);
         return $solve;
+    }
+
+    public function getAllSolvesByUser($user, $type)
+    {
+        if('' == $type){
+            $results = $this->createQueryBuilder('solve')
+                ->where('solve.user = :user')
+                ->select('solve.time, solve.type')
+                ->setParameter('user', $user)
+                ->getQuery()
+                ->getResult();
+        } else {
+            $results = $this->createQueryBuilder('solve')
+                ->where('solve.user = :user')
+                ->andWhere('solve.type LIKE :type')
+                ->select('solve.time, solve.type')
+                ->setParameter('user', $user)
+                ->setParameter('type', $type)
+                ->getQuery()
+                ->getResult();
+        }
+
+        if(count($results) > 0){
+            foreach($results as $result){
+                $rows[] = $result;
+            }
+        } else {
+            $rows = null;
+        }
+
+        return $rows;
     }
 
     // /**
