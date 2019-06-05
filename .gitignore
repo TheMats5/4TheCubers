@@ -9,7 +9,9 @@
 .idea
 ###< symfony/framework-bundle ###
 
-.vagrant
+
+Vagrantfile
+.vagrant/*
 Homestead.yaml
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
