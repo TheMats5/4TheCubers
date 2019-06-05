@@ -35,154 +35,156 @@
         <h1 class="title">4TheCuber.<span class="title-span">net</span></h1>
     </div>
     <div class="main">
-        <div class="d-flex main-top">
-            <div>
+        <div class="main-container">
+            <div class="d-flex main-top">
+                <div>
 
-                <select class="selectpicker select-cube-type" data-style="custom-button">
-                    <optgroup label="regular">
-                        <option value="222">2x2x2</option>
-                        <option selected="selected" value="333">3x3x3</option>
-                        <option value="444">4x4x4</option>
-                        <option value="555">5x5x5</option>
-                        <option value="666">6x6x6</option>
-                        <option value="777">7x7x7</option>
-                    </optgroup>
-                    <optgroup label="blindfolded">
-                        <option value="333bf">3x3x3</option>
-                        <option value="444bf">4x4x4</option>
-                        <option value="555bf">5x5x5</option>
-                    </optgroup>
-                    <optgroup label="other">
-                        <option value="minx">Megaminx</option>
-                        <option value="pyram">Pyraminx</option>
-                    </optgroup>
-                </select>
-            </div>
-            <div class="divider mt-2"></div>
+                    <select class="selectpicker select-cube-type" data-style="custom-button">
+                        <optgroup label="regular">
+                            <option value="222">2x2x2</option>
+                            <option selected="selected" value="333">3x3x3</option>
+                            <option value="444">4x4x4</option>
+                            <option value="555">5x5x5</option>
+                            <option value="666">6x6x6</option>
+                            <option value="777">7x7x7</option>
+                        </optgroup>
+                        <optgroup label="blindfolded">
+                            <option value="333bf">3x3x3</option>
+                            <option value="444bf">4x4x4</option>
+                            <option value="555bf">5x5x5</option>
+                        </optgroup>
+                        <optgroup label="other">
+                            <option value="minx">Megaminx</option>
+                            <option value="pyram">Pyraminx</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="divider mt-2"></div>
 
-            <div>
-                <h1 class="scramble"> L2 U2 L2 R2 D B2 R2 D' L2 D U F' D2 L' R' U' F L' B' L F</h1>
+                <div>
+                    <h1 class="scramble"></h1>
+                </div>
             </div>
-        </div>
-        <div class="d-flex">
-            <div class="main-left">
-                <div class="d-flex justify-content-between">
-                    <div class="top-left">
-                        <div class="general-title">
-                            <img class="world-icon" src="{{ asset('build/images/world.png') }}" alt="">
-                            <h1 class="ml-4 mt-4">General stats</h1>
+            <div class="d-flex">
+                <div class="main-left">
+                    <div class="d-flex justify-content-between">
+                        <div class="top-left">
+                            <div class="general-title">
+                                <img class="world-icon" src="{{ asset('build/images/world.png') }}" alt="">
+                                <h1 class="ml-4 mt-4">General stats</h1>
+                            </div>
+                            <div class="general-stats d-flex">
+                                <div class="d-flex">
+                                    <h2>52</h2>
+                                    <h3>total solves</h3>
+                                </div>
+                                <div class="d-flex">
+                                    <h2>7</h2>
+                                    <h3>+2sec</h3>
+                                </div>
+                                <div class="d-flex">
+                                    <h2>5</h2>
+                                    <h3 class="dnf">DNF</h3>
+                                </div>
+                            </div>
                         </div>
-                        <div class="general-stats d-flex">
-                            <div class="d-flex">
-                                <h2>52</h2>
-                                <h3>total solves</h3>
+                        <div class="top-right">
+                            <div class="friends-title">
+                                <img class="friends-icon" src="{{ asset('build/images/friends-blue.png') }}" alt="">
+                                <h1 class="ml-4 mt-4">Online friends</h1>
                             </div>
-                            <div class="d-flex">
-                                <h2>7</h2>
-                                <h3>+2sec</h3>
-                            </div>
-                            <div class="d-flex">
-                                <h2>5</h2>
-                                <h3 class="dnf">DNF</h3>
+                            <div class="dashboard-friends d-flex">
+                                <div class="dashboard-friend">
+                                    <div class="friend-avatar"></div>
+                                    <div class="dot"></div>
+                                    <div class="friend-name">friend1</div>
+                                </div>
+                                <div class="dashboard-friend">
+                                    <div class="friend-avatar"></div>
+                                    <div class="dot"></div>
+                                    <div class="friend-name">friend2</div>
+                                </div>
+                                <div class="dashboard-friend">
+                                    <div class="friend-avatar"></div>
+                                    <div class="dot"></div>
+                                    <div class="friend-name">friend3</div>
+                                </div>
+                                <div class="dashboard-friend">
+                                    <div class="friend-avatar"></div>
+                                    <div class="dot"></div>
+                                    <div class="friend-name">friend4</div>
+                                </div>
+                                <h3 class="more-friends">More</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="top-right">
-                        <div class="friends-title">
-                            <img class="friends-icon" src="{{ asset('build/images/friends-blue.png') }}" alt="">
-                            <h1 class="ml-4 mt-4">Online friends</h1>
-                        </div>
-                        <div class="dashboard-friends d-flex">
-                            <div class="dashboard-friend">
-                                <div class="friend-avatar"></div>
-                                <div class="dot"></div>
-                                <div class="friend-name">friend1</div>
+                    <div class="left-bottom">
+                        <div class="timer">
+                            <div class="timer-title d-flex justify-content-between">
+                                <h2>minutes</h2>
+                                <h2 style="padding-left:50px;">seconds</h2>
+                                <h2>milliseconds</h2>
                             </div>
-                            <div class="dashboard-friend">
-                                <div class="friend-avatar"></div>
-                                <div class="dot"></div>
-                                <div class="friend-name">friend2</div>
+                            <h1 id="timerLabel">00<span class="">:</span>00<span class="">:</span>00</h1>
+                            <div class="d-flex">
+                                <button class="first-button timer-buttons add2seconds">+2</button>
+                                <button class="timer-buttons did-not-finish">DNF</button>
+                                <button class="timer-buttons delete-time">Delete</button>
                             </div>
-                            <div class="dashboard-friend">
-                                <div class="friend-avatar"></div>
-                                <div class="dot"></div>
-                                <div class="friend-name">friend3</div>
-                            </div>
-                            <div class="dashboard-friend">
-                                <div class="friend-avatar"></div>
-                                <div class="dot"></div>
-                                <div class="friend-name">friend4</div>
-                            </div>
-                            <h3 class="more-friends">More</h3>
+
                         </div>
                     </div>
                 </div>
-                <div class="left-bottom">
-                    <div class="timer">
-                        <div class="timer-title d-flex justify-content-between">
-                            <h2>minutes</h2>
-                            <h2 style="padding-left:50px;">seconds</h2>
-                            <h2>milliseconds</h2>
+                <div class="aside-right">
+                    <div class="right-top">
+                        <div class="cube-title">
+                            <img class="cube-icon" src="{{ asset('build/images/cube.png') }}" alt="">
+                            <h1 class="ml-4 mt-4">Latest solves</h1>
                         </div>
-                        <h1 id="timerLabel">00<span class="">:</span>00<span class="">:</span>00</h1>
-                        <div class="d-flex">
-                            <button class="first-button timer-buttons add2seconds">+2</button>
-                            <button class="timer-buttons did-not-finish">DNF</button>
-                            <button class="timer-buttons delete-time">Delete</button>
+                        <div class="my-table">
+                            <div class="column column1">
+                                <div class="table-row d-flex">
+                                    <div class="table-head table-item">time</div>
+                                    <div class="table-head table-item">type</div>
+                                </div>
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve1"></div>
+                                    <div class="table-item time1"></div>
+                                </div>
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve2"></div>
+                                    <div class="table-item time2"></div>
+                                </div>
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve3"></div>
+                                    <div class="table-item time3"></div>
+                                </div>
+                            </div>
+                            <div class="column column2">
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve4"></div>
+                                    <div class="table-item time4"></div>
+                                </div>
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve5"></div>
+                                    <div class="table-item time5"></div>
+                                </div>
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve6"></div>
+                                    <div class="table-item time6"></div>
+                                </div>
+                                <div class="table-row d-flex">
+                                    <div class="table-item solve7"></div>
+                                    <div class="table-item time7"></div>
+                                </div>
+
+                            </div>
+
                         </div>
+                    </div>
+                    <div class="right-bottom">
 
                     </div>
-                </div>
-            </div>
-            <div class="aside-right">
-                <div class="right-top">
-                    <div class="cube-title">
-                        <img class="cube-icon" src="{{ asset('build/images/cube.png') }}" alt="">
-                        <h1 class="ml-4 mt-4">Latest solves</h1>
-                    </div>
-                    <div class="my-table">
-                        <div class="column column1">
-                            <div class="table-row d-flex">
-                                <div class="table-head table-item">time</div>
-                                <div class="table-head table-item">type</div>
-                            </div>
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-                        </div>
-                        <div class="column column2">
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-                            <div class="table-row d-flex">
-                                <div class="table-item">aaa</div>
-                                <div class="table-item">bbb</div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <div class="right-bottom">
-
                 </div>
             </div>
         </div>
@@ -266,10 +268,12 @@
     {{ parent() }}
     <script>
         $(document).ready(function () {
-
+            setTable();
             let cubeType = $('.select-cube-type').val();
+            setscramble(cubeType);
             $('.select-cube-type').change(function () {
                 cubeType = $(this).val();
+                setscramble(cubeType);
             })
             //console.log(cubeType);
 
@@ -317,6 +321,7 @@
             }
 
             $(".timer-buttons").hide();
+            let counter = 0;
             var timerLabel = document.getElementById('timerLabel');
             var time = 0;
             var running = false;
@@ -394,6 +399,13 @@
                 pressed = 1;
                 if (!done && !firstRound && !clicked) {
                     sendData(time);
+                    if(counter<7){
+                        counter++;
+                    } else{
+                        counter = 0;
+                    }
+
+                    setTableTime(time, cubeType, counter);
                     addRow(time, cubeType);
                     done = true;
                 }
@@ -460,5 +472,37 @@
                 ).draw(false);
             }
         })
+        function setscramble(type){
+            var scrambo = new Scrambo();
+            let scramble = scrambo.type(type).get()
+            $('.scramble').html(scramble);
+        }
+        function setTable(time, type){
+            let solves = ['NaN','NaN','NaN','NaN','NaN','NaN','NaN'];
+            let types = ['','','','','','',''];
+            $('.solve1').html(solves[0]);
+            $('.solve2').html(solves[1]);
+            $('.solve3').html(solves[2]);
+            $('.solve4').html(solves[3]);
+            $('.solve5').html(solves[4]);
+            $('.solve6').html(solves[5]);
+            $('.solve7').html(solves[6]);
+
+            $('.type1').html(types[0]);
+            $('.type2').html(types[1]);
+            $('.type3').html(types[2]);
+            $('.type4').html(types[3]);
+            $('.type5').html(types[4]);
+            $('.type6').html(types[5]);
+            $('.type7').html(types[6]);
+
+        }
+        function setTableTime(time, type, counter){
+            console.log($('solve'+counter+1));
+                $('solve'+counter+1).html(time);
+                $('type'+counter+1).html(type);
+        }
+
+
     </script>
 {% endblock %}

@@ -22,7 +22,7 @@ $width-nav: 226px;
   }
 }
 .main-top{
-  width:85%;
+  width:85vw;
   height:150px;
   border-radius: 15px;
   background-color: $blockblue;
@@ -53,7 +53,7 @@ $width-nav: 226px;
     }
   }
   & .left-bottom{
-    height: 450px;
+    height: 62%;
     background-color: $blockblue;
     border-radius: 15px;
     margin-left: 44px;
@@ -71,14 +71,14 @@ $width-nav: 226px;
       margin-left: 200px;
       margin-right: 170px;
       & h2{
-        margin-top: 40px;
+        margin-top: 30px;
         font-size:32px;
         margin-bottom: 0px;
       }
     }
     & #timerLabel{
       color:white;
-      font-size: 140px;
+      font-size: 8em;
       text-align: center;
       margin-bottom: 0px;
     }
@@ -86,7 +86,7 @@ $width-nav: 226px;
         opacity: 0.4;
       }
     & .timer-buttons{
-      width: 160px;
+      width: 200px;
       height: 50px;
       border-radius: 15px;
       border: solid 2px $lightblue;
@@ -96,7 +96,7 @@ $width-nav: 226px;
       margin-right: 20px;
     }
     & .first-button{
-      margin-left: 200px;
+      margin-left: 11%;
     }
   }
 }
@@ -111,11 +111,10 @@ $width-nav: 226px;
     border-radius: 15px;
   }
   & .right-bottom{
-    height:60%;
+    height:53%;
     width: 100%;
     border-radius: 15px;
     background-color: $blockblue;
-
   }
 }
 .custom-button{
@@ -161,7 +160,7 @@ $width-nav: 226px;
 }
 .scramble{
   color: $white;
-  font-size: 48px;
+  font-size: 2.5em;
   margin-left: 150px;
   margin-top: 50px;
 }
@@ -177,9 +176,10 @@ $width-nav: 226px;
   color:$white;
   margin:30px 0px 0px 120px;
   & h2{
-    font-size:48px
+    font-size:2.9em;
   }
   & h3{
+    font-size:1.25em;
     margin-right: 20px;
     margin-top:18px;
     margin-left: 4px;
@@ -254,6 +254,7 @@ $width-nav: 226px;
 }
 .table-item{
   width:80px;
+  heigt:50px;
   font-size: 24px;
  border-right: 1px solid $lightblue;
   padding-left: 20px;
