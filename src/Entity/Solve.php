@@ -31,6 +31,22 @@ class Solve
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $scramble;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $plus2;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,4 +87,41 @@ class Solve
 
         return $this;
     }
+
+    public function getScramble(): ?string
+    {
+        return $this->scramble;
+    }
+
+    public function setScramble(string $scramble): self
+    {
+        $this->scramble = $scramble;
+
+        return $this;
+    }
+
+    public function getPlus2(): ?bool
+    {
+        return $this->plus2;
+    }
+
+    public function setPlus2(?bool $plus2): self
+    {
+        $this->plus2 = $plus2;
+
+        return $this;
+    }
+
+    public function getCreated_at(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreated_at(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
 }

@@ -19,6 +19,8 @@
         "@fortawesome/fontawesome-free": "^5.8.2",
         "bootstrap": "^4.3.1",
         "bootstrap-select": "^1.13.10",
+        "chart.js": "^2.8.0",
+        "chartjs-plugin-datalabels": "^0.6.0",
         "child_process": "^1.0.2",
         "compass": "^0.1.1",
         "datatables.net": "^1.10.19",
@@ -28,6 +30,7 @@
         "jquery": "^3.4.1",
         "jquery-columnizer": "^1.6.3",
         "popper.js": "^1.15.0",
-        "scrambo": "^0.3.0"
+        "scrambo": "^0.3.0",
+        "webpack-jquery-ui": "^2.0.1"
     }
 }

@@ -23,6 +23,7 @@ Encore
     .addEntry('settings', './assets/images/settings.png')
     .addEntry('world', './assets/images/world.png')
     .addEntry('cube', './assets/images/cube.png')
+    .addEntry('personalStats', './assets/images/personal-stats.png')
     .addEntry('friends-blue', './assets/images/friends-blue.png')
     .addEntry('stats', './assets/images/stats.png')
     .addEntry('logo', './assets/images/logo.png')

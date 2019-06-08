@@ -21,7 +21,13 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('username', TextType::class,[
                 'constraints' => [
-                    new NotBlank(['message' => 'please enter a valid username'])
+                    new NotBlank(['message' => 'please enter a valid username']),
+                    new Length(['min' => 4,
+                        'minMessage' => 'Your username should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 20,
+                        'maxMessage' => 'Your username should not be longer than 20 characters',
+                    ])
                 ],
                 'error_bubbling' => true,
                 'label' => false ,
@@ -32,13 +38,6 @@ class RegistrationFormType extends AbstractType
                     new Email([
                         'message' => 'Please enter a valid email address.'
                     ]),
-                    new Length(['min' => 4,
-                        'minMessage' => 'Your username should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 20,
-                        'maxMessage' => 'Your username should not be longer than 20 characters',
-                        ])
-
                 ],
                 'error_bubbling' => true,
                 'label' => false,

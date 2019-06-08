@@ -22,7 +22,7 @@
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
-            <a href="#Friends"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends</a>
+            <a href="#Friends" class="notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends <div class="notification-counter">1</div></a>
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
@@ -75,15 +75,15 @@
                             </div>
                             <div class="general-stats d-flex">
                                 <div class="d-flex">
-                                    <h2>52</h2>
+                                    <h2 class="total-solves">0</h2>
                                     <h3>total solves</h3>
                                 </div>
                                 <div class="d-flex">
-                                    <h2>7</h2>
+                                    <h2 class="total-plus2">0</h2>
                                     <h3>+2sec</h3>
                                 </div>
                                 <div class="d-flex">
-                                    <h2>5</h2>
+                                    <h2 class="total-DNF">0</h2>
                                     <h3 class="dnf">DNF</h3>
                                 </div>
                             </div>
@@ -94,27 +94,23 @@
                                 <h1 class="ml-4 mt-4">Online friends</h1>
                             </div>
                             <div class="dashboard-friends d-flex">
+                                {% for friend in friends %}
                                 <div class="dashboard-friend">
                                     <div class="friend-avatar"></div>
                                     <div class="dot"></div>
-                                    <div class="friend-name">friend1</div>
+                                    <div class="friend-name">{{ friend.username }}</div>
+                                    <h3 class="more-friends">More</h3>
                                 </div>
-                                <div class="dashboard-friend">
-                                    <div class="friend-avatar"></div>
-                                    <div class="dot"></div>
-                                    <div class="friend-name">friend2</div>
-                                </div>
-                                <div class="dashboard-friend">
-                                    <div class="friend-avatar"></div>
-                                    <div class="dot"></div>
-                                    <div class="friend-name">friend3</div>
-                                </div>
-                                <div class="dashboard-friend">
-                                    <div class="friend-avatar"></div>
-                                    <div class="dot"></div>
-                                    <div class="friend-name">friend4</div>
-                                </div>
-                                <h3 class="more-friends">More</h3>
+                                {% endfor %}
+                                {% if friends is empty %}
+                                    <div class="online-friends-div d-flex justify-content-center">
+                                        <p>You don't have any friends yet.</p>
+                                        <button type="button" class="btn btn-primary add-friends-modal-button" data-toggle="modal" data-target="#exampleModalCenter">
+                                            Add friends
+                                        </button>
+                                    </div>
+                                {% endif %}
+
                             </div>
                         </div>
                     </div>
@@ -122,7 +118,7 @@
                         <div class="timer">
                             <div class="timer-title d-flex justify-content-between">
                                 <h2>minutes</h2>
-                                <h2 style="padding-left:50px;">seconds</h2>
+                                <h2 style="padding-left:1%;">seconds</h2>
                                 <h2>milliseconds</h2>
                             </div>
                             <h1 id="timerLabel">00<span class="">:</span>00<span class="">:</span>00</h1>
@@ -183,83 +179,39 @@
                         </div>
                     </div>
                     <div class="right-bottom">
-
+                        <div class="personal-stats-title">
+                            <img class="personal-icon" src="{{ asset('build/images/personal-stats.png') }}" alt="">
+                            <h1 class="ml-4 mt-4">Personal stats</h1>
+                        </div>
+                        <div class="personal-chart" style="padding-top: 20px;" >
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {#    <h1 class="title">StopWatch</h1>#}
-    {#    <h1 id="timerLabel">00:00:00</h1>#}
-    {#    <div class="d-flex">#}
-    {#        <button class="timer-buttons add2seconds">+2</button>#}
-    {#        <button class="timer-buttons did-not-finish">DNF</button>#}
-    {#        <button class="timer-buttons delete-time">Delete</button>#}
-    {#    </div>#}
-    {#    <select class="selectpicker select-cube-type">#}
-    {#        <optgroup label="regular">#}
-    {#            <option value="222">2x2x2</option>#}
-    {#            <option selected="selected" value="333">3x3x3</option>#}
-    {#            <option value="444">4x4x4</option>#}
-    {#            <option value="555">5x5x5</option>#}
-    {#            <option value="666">6x6x6</option>#}
-    {#            <option value="777">7x7x7</option>#}
-    {#        </optgroup>#}
-    {#        <optgroup label="blindfolded">#}
-    {#            <option value="333bf">3x3x3</option>#}
-    {#            <option value="444bf">4x4x4</option>#}
-    {#            <option value="555bf">5x5x5</option>#}
-    {#        </optgroup>#}
-    {#        <optgroup label="other">#}
-    {#            <option value="minx">Megaminx</option>#}
-    {#            <option value="pyram">Pyraminx</option>#}
-    {#        </optgroup>#}
-
-    {#    </select>#}
-    {#    <table>#}
-    {#        <tr>#}
-    {#            <td>#}
-    {#            </td>#}
-    {#            <td>#}
-    {#                <select id='searchByType'>#}
-    {#                    <option value=''>-- Select type --</option>#}
-    {#                    <optgroup label="regular">#}
-    {#                        <option value="222">2x2x2</option>#}
-    {#                        <option value="333">3x3x3</option>#}
-    {#                        <option value="444">4x4x4</option>#}
-    {#                        <option value="555">5x5x5</option>#}
-    {#                        <option value="666">6x6x6</option>#}
-    {#                        <option value="777">7x7x7</option>#}
-    {#                    </optgroup>#}
-    {#                    <optgroup label="blindfolded">#}
-    {#                        <option value="333">3x3x3</option>#}
-    {#                        <option value="444">4x4x4</option>#}
-    {#                        <option value="555">5x5x5</option>#}
-    {#                    </optgroup>#}
-    {#                    <optgroup label="other">#}
-    {#                        <option value="minx">Megaminx</option>#}
-    {#                        <option value="pyram">Pyraminx</option>#}
-    {#                    </optgroup>#}
-    {#                </select>#}
-    {#            </td>#}
-    {#        </tr>#}
-    {#    </table>#}
-
-    {#    <table id="solvesTable" class="table table-sm table-striped table-bordered">#}
-    {#        <thead>#}
-    {#        <tr>#}
-    {#            <th>#}
-    {#                time#}
-    {#            </th>#}
-    {#            <th>#}
-    {#                type#}
-    {#            </th>#}
-    {#        </tr>#}
-    {#        </thead>#}
-    {#        <tbody>#}
-
-    {#        </tbody>#}
-    {#    </table>#}
+    <!-- Modal -->
+    <div class="my-modal modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content add-friend-content">
+                <button type="button" class="close add-friend-x-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-header d-flex justify-content-center">
+                    <h3>Add friends</h3>
+                </div>
+                <div class="modal-body ">
+                    <h3 class="error-user"></h3>
+                    <input class="add-friend-input"type="text">
+                    <button type="button" class="btn btn-primary add-friend-button">Add friend</button>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary add-friend-close-button" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </body>
 
 {% endblock %}
@@ -267,44 +219,169 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
+
         $(document).ready(function () {
+
+            $(".add-friend-button").click(function(){
+                let username = $(".add-friend-input").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/send-friendRequest",
+                    dataType: 'JSON',
+                    data: {
+                        username: username
+                    },
+                    success: function (response) {
+                        if(response.status === "success") {
+                            $(".error-user").html(response.message);
+                        } else if(response.status === "error") {
+                            $(".error-user").html(response.message);
+                                $( ".my-modal" ).effect( "shake", {times:3, distance: 5}, 500 );
+
+
+                        }
+                    }
+                });
+            })
+
+
+            var ctx = document.getElementById('myChart').getContext('2d');
+            let chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'bar',
+                // The data for our dataset
+                data: {
+
+                    labels: ['time in minutes'],
+                    datasets: [{
+                        data: [0],
+                        label: 'Personal best',
+                        backgroundColor: "#fdc823",
+                    }, {
+                        data: [0],
+                        label: 'average of latest 5',
+                        backgroundColor: "#f24826",
+                    }, {
+                        data: [0],
+                        label: 'average of latest 12',
+                        backgroundColor: "#1672a7",
+                    }]
+                },
+                options: {
+                    animation: {
+                        "onComplete": function () {
+                            var chartInstance = this.chart,
+                                ctx = chartInstance.ctx;
+
+                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+
+                            this.data.datasets.forEach(function (dataset, i) {
+
+                                var meta = chartInstance.controller.getDatasetMeta(i);
+
+                                meta.data.forEach(function (bar, index) {
+                                    var data = dataset.data[index];
+                                    var dataInMinutes =millisToMinutesAndSeconds(parseInt(data));
+                                    ctx.fillStyle ="#fff";
+                                    ctx.fillText(dataInMinutes, bar._model.x, bar._model.y - 5);
+                                });
+                            });
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: false,
+                            gridLines: {
+                                drawBorder: false,
+                            },
+                            ticks: {
+                                stepSize: 10000,
+                                beginAtZero: true   // minimum value will be 0.
+                            }
+                        }],
+                        xAxes: [{
+                            ticks: {
+                                fontColor: "white",
+                                fontSize: 14,
+                                stepSize: 1,
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            fontColor: "#fff",
+                        }
+                    },
+                    tooltips: {
+                        enabled: false
+                    }
+                }
+            });
+            function millisToMinutesAndSeconds(time) {
+                var min = Math.floor(time / 100 / 60);
+                var sec = Math.floor(time / 100);
+                var mSec = time % 100;
+                if (min < 10) min = "0" + min;
+                if (sec >= 60) sec = sec % 60;
+                if (sec < 10) sec = "0" + sec;
+                if (mSec < 10) mSec = "0" + mSec;
+                return min + ":" + sec + ":" + mSec;
+            }
+            function updateChart(personalBest, ao5, ao12){
+                console.log('updating chart');
+                chart.data.datasets[0].data[0] = personalBest;
+                chart.data.datasets[1].data[0] = ao5;
+                chart.data.datasets[2].data[0] = ao12;
+                chart.update();
+            }
             setTable();
+            getGeneralStats();
             let cubeType = $('.select-cube-type').val();
+            getPersonalStats();
             setscramble(cubeType);
             $('.select-cube-type').change(function () {
                 cubeType = $(this).val();
                 setscramble(cubeType);
+                getPersonalStats();
             })
             //console.log(cubeType);
 
-            $("#solvesTable").DataTable({
-                "dom": '<"top"i>rt<"bottom"flp><"clear">',
-                "bInfo": false,
-                "processing": true,
-                'serverSide': true,
-                'serverMethod': 'post',
-                'searching': false,
-                "ajax": {
-                    "url": "/ajax-get-solves",
-                    "dataSrc": "",
-                    'data': function (data) {
-                        // Read values
-                        let type = $('#searchByType').val();
-
-                        // Append to data
-                        data.searchByType = type;
+            function getPersonalStats(){
+                $.ajax({
+                    type: "POST",
+                    url: "/get-personal-stats",
+                    dataType: 'JSON',
+                    data: {
+                        type: cubeType
+                    },
+                    success: function (response) {
+                        //console.log(response);
+                        updateChart(response[0], response[1], response[2]);
                     }
-                },
-                "columns": [
-                    {"data": "time"},
-                    {"data": "type"}
-                ]
-            });
-            $('#searchByType').change(function () {
-                $("#solvesTable").DataTable().draw();
-            });
+                });
+            }
 
-            function sendData(time) {
+
+            function getGeneralStats(){
+                    $.ajax({
+                        type: "GET",
+                        url: "/get-general-stats",
+                        dataType: 'JSON',
+                        success: function (response) {
+                            $('.total-solves').html(response[0])
+                            $('.total-plus2').html(response[1])
+                            $('.total-DNF').html(response[2])
+                        }
+                    });
+            }
+
+            function sendData(time, plus2) {
+                let sendScramble = $('.scramble').html();
                 $.ajax({
                     type: "POST",
                     url: '/ajax-save-solve',
@@ -312,15 +389,17 @@
                     data: {
                         time: time,
                         cubeType: cubeType,
+                        scramble: sendScramble,
+                        plus2: plus2,
                     },
-                    success: function (data) {
-                        console.log(data)
-
-                    }
+                    complete: function () {
+                        getPersonalStats();
+                    },
                 });
             }
 
             $(".timer-buttons").hide();
+            let scramble;
             let counter = 0;
             var timerLabel = document.getElementById('timerLabel');
             var time = 0;
@@ -399,7 +478,7 @@
                 pressed = 1;
                 if (!done && !firstRound && !clicked) {
                     sendData(time);
-                    if(counter<7){
+                    if(counter<7 ){
                         counter++;
                     } else{
                         counter = 0;
@@ -422,23 +501,37 @@
                 stop();
                 firstRound = false;
                 $(".timer-buttons").show();
-
+                setscramble(cubeType);
                 $(".add2seconds").one("click", function () {
                     if (clicked === false) {
                         time = time + 200;
-                        console.log(time);
+                       // console.log(time);
                         clicked = true
                         addRow(time, cubeType);
-                        sendData(time);
+                        let plus2 = true;
+                        sendData(time, plus2);
+                        if(counter<7 ){
+                            counter++;
+                        } else{
+                            counter = 0;
+                        }
+
+                        setTableTime(time, cubeType, counter);
                     }
                 })
                 $(".did-not-finish").one("click", function () {
                     if (clicked === false) {
                         time = 0;
-                        console.log(time);
+                       // console.log(time);
                         addRow(time, cubeType);
                         sendData(time);
                         clicked = true;
+                        if(counter<7 ){
+                            counter++;
+                        } else{
+                            counter = 0;
+                        }
+                        setTableTime(time, cubeType, counter);
                     }
                 })
                 $(".delete-time").one("click", function () {
@@ -474,9 +567,11 @@
         })
         function setscramble(type){
             var scrambo = new Scrambo();
-            let scramble = scrambo.type(type).get()
+            scramble = scrambo.type(type).get()
             $('.scramble').html(scramble);
+
         }
+
         function setTable(time, type){
             let solves = ['NaN','NaN','NaN','NaN','NaN','NaN','NaN'];
             let types = ['','','','','','',''];
@@ -498,9 +593,22 @@
 
         }
         function setTableTime(time, type, counter){
-            console.log($('solve'+counter+1));
-                $('solve'+counter+1).html(time);
-                $('type'+counter+1).html(type);
+            let solve = '.solve'+counter;
+            let tableType = '.time'+counter;
+            if(0 === time){
+                $(solve).html('DNF');
+            } else {
+                var min = Math.floor(time / 100 / 60);
+                var sec = Math.floor(time / 100);
+                var mSec = time % 100;
+                if (min < 10) min = "0" + min;
+                if (sec >= 60) sec = sec % 60;
+                if (sec < 10) sec = "0" + sec;
+                if (mSec < 10) mSec = "0" + mSec;
+                $(solve).html(min + ":" + sec + ":" + mSec);
+
+            }
+            $(tableType).html(type);
         }
 
 

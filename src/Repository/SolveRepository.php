@@ -29,7 +29,7 @@ class SolveRepository extends ServiceEntityRepository
         return new Response('ok', 200);
     }
 
-    public function addSolve(int $time,string $cubeType, User $user)
+    public function addSolve(int $time,string $cubeType,string $scramble,?bool $plus2, User $user)
     {
         /** @var Solve $solve */
         $solve = new Solve;
@@ -37,7 +37,14 @@ class SolveRepository extends ServiceEntityRepository
         if(0 !== $time){
             $solve->setTime($time);
         }
+        if (null===$plus2){
+            $solve->setPlus2(0);
+        } else {
+            $solve->setPlus2(1);
+        }
+        $solve->setCreated_at(new \DateTime());
         $solve->setType($cubeType);
+        $solve->setScramble($scramble);
         $solve->setUser($user);
         $this->saveSolve($solve);
         return $solve;
@@ -72,6 +79,101 @@ class SolveRepository extends ServiceEntityRepository
         }
 
         return $rows;
+    }
+
+    public function getAllSolvesCountByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.time IS NOT NULL' )
+            ->select('count(solve.id)')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $results;
+
+
+    }
+
+    public function getAllPlus2CountByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.plus2 = 1' )
+            ->select('count(solve.id)')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $results;
+    }
+
+    public function getAllDnfCountByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.time IS NULL' )
+            ->select('count(solve.id)')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $results;
+    }
+
+    public function getBestSolve($user, $type)
+    {
+        $result = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.time IS NOT NULL' )
+            ->andWhere("solve.type = :type")
+            ->select('solve.time')
+            ->OrderBy('solve.time', 'ASC')
+            ->setParameter('user', $user)
+            ->setParameter('type', $type)
+            ->getQuery()
+            ->getResult();
+
+        if(!reset($result)){
+            $result=0;
+        } else{
+            $result = reset($result);
+            $result = current($result);
+        }
+        return $result;
+
+    }
+
+    public function getAverageOFLatestSolves($user, $type, $averageOf)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.time IS NOT NULL' )
+            ->andWhere("solve.type = :type")
+            ->select('solve')
+            ->OrderBy('solve.created_at', 'DESC')
+            ->setParameter('user', $user)
+            ->setParameter('type', $type)
+            ->getQuery()
+            ->getResult();
+        if(count($results)<$averageOf){
+            $average = 0;
+        } else {
+            $results = array_slice($results, 0, $averageOf, true);
+            $sum = 0;
+            /** @var Solve $solve */
+            foreach($results as $solve){
+
+                $sum += $solve->getTime();
+            }
+            if(count($results) === 0){
+                $average = 0;
+            } else {
+                $average = $sum/count($results);
+            }
+        }
+        return floor($average);
     }
 
     // /**

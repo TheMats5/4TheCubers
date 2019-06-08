@@ -19,6 +19,32 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+
+    public function getUserById($id)
+    {
+        $result = $this->createQueryBuilder('user')
+            ->where('user.id = :userid')
+            ->select('user')
+            ->setParameter('userid', $id)
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
+
+    public function getUserByUsername($username)
+    {
+        $result = $this->createQueryBuilder('user')
+            ->where('user.username = :username')
+            ->select('user')
+            ->setParameter('username', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+        if($result === null){
+            return [];
+        }
+        return $result[0];
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
