@@ -28,19 +28,18 @@
     width: 103px;
     height: 103px;
     background-color: #2455ba;
-    margin: 32px 0px 10px 57px;
     border-radius: 50%;
+    margin-top: 50px;
+    margin-bottom: 10px;
   }
   & .profile-name{
-    width: 61px;
     height: 12px;
     font-family: Roboto;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 0.9;
     text-align: left;
     color: $white;
     margin-bottom: 34px;
-    margin-left: 78px;
  }
 }
 .nav-highlight{

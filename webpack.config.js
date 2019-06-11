@@ -27,6 +27,7 @@ Encore
     .addEntry('friends-blue', './assets/images/friends-blue.png')
     .addEntry('stats', './assets/images/stats.png')
     .addEntry('logo', './assets/images/logo.png')
+    .addEntry('swords', './assets/images/swords.png')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 

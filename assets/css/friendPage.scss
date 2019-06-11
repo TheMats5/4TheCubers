@@ -1,0 +1,148 @@
+.friends-left{
+  width: 26vw;
+  height: 85vh;
+  background-color: $deep-blue;
+  margin-left:54px;
+  margin-right:54px;
+  border-radius: 15px;
+
+}
+.friends-middle{
+  width: 26vw;
+  height: 85vh;
+  background-color: $deep-blue;
+  margin-right:54px;
+  border-radius: 15px;
+}
+
+
+
+
+.friends-right-top{
+  width: 15vw;
+  height: 100px;
+  background-color: $deep-blue;
+  border-radius: 15px;
+  margin-bottom: 54px;
+  font-size:2em;
+  border:none;
+  transition: 0.2s;
+  &:hover{
+    background-color: $deep-blue;
+    border:none;
+    opacity: 0.7;
+  }
+  &:active{
+    background-color: $deep-blue !important;
+    border:none;
+  }
+  &:focus{
+    background-color: $deep-blue !important;
+    border:none !important;
+    box-shadow: none !important;
+  }
+}
+
+
+.friends-right-bottom{
+  & .dropdown-toggle::after {
+    display:none;
+  }
+}
+.friend-dropdown{
+  color: white;
+  font-size: 2em;
+  width: 15vw;
+  height: 100px;
+  background-color: $deep-blue;
+  border:none;
+  border-radius: 15px;
+  transition: 0.2s;
+  &:hover{
+    background-color: $deep-blue;
+    opacity: 0.7;
+  }
+
+}
+.friend-dropdown:active{
+  background-color: $deep-blue;
+}
+
+.friend-dropdown-menu {
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  width:15vw;
+  max-height: 0;
+  display: block;
+  overflow: hidden;
+  opacity: 0;
+  background-color: $deep-blue;
+  color: $white;
+  outline:none;
+}
+
+.dropdown.show .dropdown-menu {
+  max-height: 300px;
+  opacity: 1;
+
+}
+
+.friend-dropdown-name{
+  margin: 0px;
+  margin-left:30px;
+  font-size:24px;
+  color:white;
+}
+.accept-request-button{
+  color: $lightgreen;
+  opacity: 0.8;
+  margin-left: 20px;
+  &:hover{
+    color: #20FF80;
+
+  }
+}
+.reject-request-button{
+  color: $error;
+  &:hover{
+    color:#FF1600;
+
+  }
+}
+
+.dropdown-friend-avatar {
+  width: 60px !important;
+  height: 60px;
+}
+
+.friend-added-successfully{
+  color:$lightgreen;
+  background-color: rgba(176, 255, 203, 0.29);
+
+}
+
+.friend-deleted-successfully{
+  color:$error;
+  background-color: $error-background;
+
+}
+.dropdown-friends{
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: 1px solid $darker-blue;
+  margin-top: 20px;
+}
+.dropdown-friends:last-child{
+  border-bottom: none;
+}
+.messages{
+  margin-left: 25%;
+  top:60px;
+  font-size: 22px;
+  position: absolute;
+  border-radius: 15px;
+  padding: 5px 10px;
+}

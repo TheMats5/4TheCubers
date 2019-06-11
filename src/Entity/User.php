@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -34,6 +35,12 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $last_active;
+
 
     public function getId(): ?int
     {
@@ -91,6 +98,18 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         
+    }
+
+    public function getLastActive(): \DateTime
+    {
+        return $this->last_active;
+    }
+
+    public function setLastActive(\DateTime $last_active): self
+    {
+        $this->last_active = $last_active;
+
+        return $this;
     }
 
 }

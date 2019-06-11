@@ -66,6 +66,41 @@ class FriendsRepository extends ServiceEntityRepository
 
 
     }
+
+    public function changeRequestStatus($requestType, $senderId)
+    {
+        $results = $this->createQueryBuilder('friend')
+            ->where('friend.type = :type')
+            ->andWhere('friend.sender_id = :senderId' )
+            ->setParameter('senderId', $senderId)
+            ->setParameter('type', 'request_received')
+            ->getQuery()
+            ->getResult();
+
+        /** @var Friend $friend */
+        $friend = $results[0];
+        $friend->setType('accepted');
+        $this->getEntityManager()->merge($friend);
+        $this->getEntityManager()->flush();
+        return $friend;
+    }
+
+    /**  */
+    public function getAllOnlineFriend($friendlist)
+    {
+        $onlineFriends = [];
+        /** @var User $friend */
+        foreach ($friendlist as $friend){
+            $lastActive = $friend->getLastActive();
+            $now = date("Y-m-d H:i:s");
+            $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $now);
+           $timeDiff = $lastActive->diff($datetime);
+           if($timeDiff->i > 10){
+               array_push($onlineFriends, $friend);
+           }
+           return $onlineFriends;
+        }
+    }
     // /**
     //  * @return Friend[] Returns an array of Friend objects
     //  */

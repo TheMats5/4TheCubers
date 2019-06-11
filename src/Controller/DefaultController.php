@@ -21,15 +21,26 @@ class DefaultController extends AbstractController
      * @Route("/", name="dashboard")
      * @Template
      */
-    public function dashboard(FriendsRepository $friendsRepository, FriendService $friendService): array
+    public function dashboard(FriendsRepository $friendsRepository, FriendService $friendService, UserRepository $userRepository): array
     {
-        $user = $this->getUser();
+        try{
+            $user = $this->getUser();
+            $userRepository->setLastActiveForUser($user);
+            $friends = $friendsRepository->getAllFriends($user);
+            $friendsList = $friendService->getListOfFriends($friends, $user);
+            $allOnlineFriends = $friendsRepository->getAllOnlineFriend($friendsList);
+            $friendRequests = $friendsRepository->getRequestedFriendships($user);
+            $amountOfRequest = count($friendRequests);
+        } catch(\Exception $exception){
+            $this->addFlash('error', $exception);
+        }
 
-        $friends = $friendsRepository->getAllFriends($user);
-        $friendsList = $friendService->getListOfFriends($friends, $user);
-        $friendRequests = $friendsRepository->getRequestedFriendships($user);
+
         return [
-            'friends' => $friendsList
+            'user' => $user,
+            'friends' => $friendsList,
+            'amounntOfRequest' => $amountOfRequest,
+            'allOnlineFriends' => $allOnlineFriends,
         ];
     }
 

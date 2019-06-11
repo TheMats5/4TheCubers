@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Friend;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -22,28 +25,50 @@ class UserRepository extends ServiceEntityRepository
 
     public function getUserById($id)
     {
-        $result = $this->createQueryBuilder('user')
-            ->where('user.id = :userid')
-            ->select('user')
-            ->setParameter('userid', $id)
-            ->getQuery()
-            ->getResult();
+        $em = $this->getEntityManager();
+        $user = $em->getRepository('App\Entity\User')->findBy(['id'=>$id]);
 
-        return $result;
+        if(!$user){
+            throw new NotFoundHttpException('The user does not exist');
+        }
+        return $user;
     }
 
     public function getUserByUsername($username)
     {
-        $result = $this->createQueryBuilder('user')
-            ->where('user.username = :username')
-            ->select('user')
-            ->setParameter('username', $username)
-            ->getQuery()
-            ->getOneOrNullResult();
-        if($result === null){
-            return [];
+
+        $user = $this->getEntityManager()->findBy(['username'=>$username]);
+        if(!$user){
+            throw new NotFoundHttpException('The user does not exist');
         }
-        return $result[0];
+        return $user;
+    }
+
+    public function getAllSenderUsersById($allRequests)
+    {
+        $userArray = [];
+        /** @var Friend $request */
+        foreach ($allRequests as $request){
+            $result = $this->createQueryBuilder('user')
+                ->where('user.id = :userid')
+                ->select('user')
+                ->setParameter('userid', $request->getSenderId())
+                ->getQuery()
+                ->getResult();
+            array_push($userArray, $result[0]);
+        }
+        return $userArray;
+    }
+
+    public function setLastActiveForUser(User $user)
+    {
+        $now = date("Y-m-d H:i:s");
+        $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $now);
+        $user->setLastActive($datetime);
+        $this->getEntityManager()->merge($user);
+        $this->getEntityManager()->flush($user);
+
+        return new Response('updated last active of '.$user->getId());
     }
     // /**
     //  * @return User[] Returns an array of User objects

@@ -5,11 +5,15 @@
 {% block body %}
     </head>
     <body>
-    <div class="sidenav">
-        <div class="profile-picture">
 
+    <div class="sidenav">
+        <div class="d-flex justify-content-center">
+            <div class="profile-picture"></div>
         </div>
-        <div class="profile-name">TheMats</div>
+
+        <div class="d-flex justify-content-center">
+            <div class="profile-name">{{ user.username }}</div>
+        </div>
         <div class="d-flex">
             <div class="nav-highlight"></div>
             <a class="d-flex active" href="#dashboard"><img class="nav-icon home-icon"
@@ -22,7 +26,7 @@
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
-            <a href="#Friends" class="notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends <div class="notification-counter">1</div></a>
+            <a href="{{ path('friends') }}" class="notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends {% if amounntOfRequest > 0 %}<div class="notification-counter">{{ amounntOfRequest }}</div> {% endif %}</a>
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
@@ -94,12 +98,11 @@
                                 <h1 class="ml-4 mt-4">Online friends</h1>
                             </div>
                             <div class="dashboard-friends d-flex">
-                                {% for friend in friends %}
+                                {% for friend in allOnlineFriends %}
                                 <div class="dashboard-friend">
                                     <div class="friend-avatar"></div>
                                     <div class="dot"></div>
                                     <div class="friend-name">{{ friend.username }}</div>
-                                    <h3 class="more-friends">More</h3>
                                 </div>
                                 {% endfor %}
                                 {% if friends is empty %}
@@ -183,7 +186,7 @@
                             <img class="personal-icon" src="{{ asset('build/images/personal-stats.png') }}" alt="">
                             <h1 class="ml-4 mt-4">Personal stats</h1>
                         </div>
-                        <div class="personal-chart" style="padding-top: 20px;" >
+                        <div class="personal-chart" >
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
@@ -221,7 +224,18 @@
     <script>
 
         $(document).ready(function () {
+            lasttimeseen();
+            let _lasttimeseen = setInterval(lasttimeseen, 30000);
+            function lasttimeseen() {
+                $.ajax({
+                    url: "/check-online",
+                    type: "POST",
+                    data: {
 
+                    },
+                    success: function (msg) {}
+                });
+            }
             $(".add-friend-button").click(function(){
                 let username = $(".add-friend-input").val();
                 $.ajax({
@@ -273,7 +287,7 @@
                             var chartInstance = this.chart,
                                 ctx = chartInstance.ctx;
 
-                            ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+                            ctx.font = Chart.helpers.fontString(20, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'bottom';
 
@@ -506,7 +520,7 @@
                     if (clicked === false) {
                         time = time + 200;
                        // console.log(time);
-                        clicked = true
+                        clicked = true;
                         addRow(time, cubeType);
                         let plus2 = true;
                         sendData(time, plus2);
@@ -564,52 +578,53 @@
                     }
                 ).draw(false);
             }
-        })
-        function setscramble(type){
-            var scrambo = new Scrambo();
-            scramble = scrambo.type(type).get()
-            $('.scramble').html(scramble);
-
-        }
-
-        function setTable(time, type){
-            let solves = ['NaN','NaN','NaN','NaN','NaN','NaN','NaN'];
-            let types = ['','','','','','',''];
-            $('.solve1').html(solves[0]);
-            $('.solve2').html(solves[1]);
-            $('.solve3').html(solves[2]);
-            $('.solve4').html(solves[3]);
-            $('.solve5').html(solves[4]);
-            $('.solve6').html(solves[5]);
-            $('.solve7').html(solves[6]);
-
-            $('.type1').html(types[0]);
-            $('.type2').html(types[1]);
-            $('.type3').html(types[2]);
-            $('.type4').html(types[3]);
-            $('.type5').html(types[4]);
-            $('.type6').html(types[5]);
-            $('.type7').html(types[6]);
-
-        }
-        function setTableTime(time, type, counter){
-            let solve = '.solve'+counter;
-            let tableType = '.time'+counter;
-            if(0 === time){
-                $(solve).html('DNF');
-            } else {
-                var min = Math.floor(time / 100 / 60);
-                var sec = Math.floor(time / 100);
-                var mSec = time % 100;
-                if (min < 10) min = "0" + min;
-                if (sec >= 60) sec = sec % 60;
-                if (sec < 10) sec = "0" + sec;
-                if (mSec < 10) mSec = "0" + mSec;
-                $(solve).html(min + ":" + sec + ":" + mSec);
+            function setscramble(type){
+                var scrambo = new Scrambo();
+                // scramble = scrambo.type(type).get();
+                $('.scramble').html(scrambo.type(type).get());
 
             }
-            $(tableType).html(type);
-        }
+
+            function setTable(time, type){
+                let solves = ['NaN','NaN','NaN','NaN','NaN','NaN','NaN'];
+                let types = ['','','','','','',''];
+                $('.solve1').html(solves[0]);
+                $('.solve2').html(solves[1]);
+                $('.solve3').html(solves[2]);
+                $('.solve4').html(solves[3]);
+                $('.solve5').html(solves[4]);
+                $('.solve6').html(solves[5]);
+                $('.solve7').html(solves[6]);
+
+                $('.type1').html(types[0]);
+                $('.type2').html(types[1]);
+                $('.type3').html(types[2]);
+                $('.type4').html(types[3]);
+                $('.type5').html(types[4]);
+                $('.type6').html(types[5]);
+                $('.type7').html(types[6]);
+
+            }
+            function setTableTime(time, type, counter){
+                let solve = '.solve'+counter;
+                let tableType = '.time'+counter;
+                if(0 === time){
+                    $(solve).html('DNF');
+                } else {
+                    var min = Math.floor(time / 100 / 60);
+                    var sec = Math.floor(time / 100);
+                    var mSec = time % 100;
+                    if (min < 10) min = "0" + min;
+                    if (sec >= 60) sec = sec % 60;
+                    if (sec < 10) sec = "0" + sec;
+                    if (mSec < 10) mSec = "0" + mSec;
+                    $(solve).html(min + ":" + sec + ":" + mSec);
+
+                }
+                $(tableType).html(type);
+            }
+        })
+
 
 
     </script>
