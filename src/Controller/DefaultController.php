@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Solve;
 use App\Entity\User;
+use App\Form\UpdateProfileForm;
 use App\Repository\FriendsRepository;
 use App\Repository\SolveRepository;
 use App\Repository\UserRepository;
 use App\Service\FriendService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,32 +21,49 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="dashboard")
-     * @Template
      */
-    public function dashboard(FriendsRepository $friendsRepository, FriendService $friendService, UserRepository $userRepository): array
+    public function dashboard(FriendsRepository $friendsRepository, FriendService $friendService, UserRepository $userRepository, Request $request)
     {
-        try{
+            /** @var User $user */
             $user = $this->getUser();
+            $form = $this->createForm(UpdateProfileForm::class, $user);
             $userRepository->setLastActiveForUser($user);
             $friends = $friendsRepository->getAllFriends($user);
             $friendsList = $friendService->getListOfFriends($friends, $user);
+
             $allOnlineFriends = $friendsRepository->getAllOnlineFriend($friendsList);
             $friendRequests = $friendsRepository->getRequestedFriendships($user);
             $amountOfRequest = count($friendRequests);
-        } catch(\Exception $exception){
-            $this->addFlash('error', $exception);
-        }
 
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user = $form->getData();
+                $file = $request->files->get('update_profile_form')['profilePicture'];
+                if(null !== $file){
+                    $uploads_directory = $this->getParameter('uploads_directory');
+                    $filename = md5(uniqid()) . '.' . $file->guessExtension();
+                    $file->move(
+                        $uploads_directory,
+                        $filename
+                    );
+                    $user->setProfilePicture("uploads/".$filename);
+                }
 
-        return [
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $this->addFlash('success', 'your profile has been successfully updated');
+                return $this->redirectToRoute('dashboard');
+            }
+
+        return $this->render('default/dashboard.html.twig',[
             'user' => $user,
             'friends' => $friendsList,
-            'amounntOfRequest' => $amountOfRequest,
+            'amountOfRequest' => $amountOfRequest,
             'allOnlineFriends' => $allOnlineFriends,
-        ];
+            'profileForm' => $form->createView()
+        ]);
     }
-
-
 
 
     /**
@@ -120,7 +139,15 @@ class DefaultController extends AbstractController
                 'message' => 'user not found'
             ]);
         } else {
-            $friendsRepository->createFriendRequest($user, $friend);
+            try{
+
+                $friendsRepository->createFriendRequest($user, $friend);
+            } catch(\Exception $exception) {
+                return new JsonResponse([
+                    'status'=> 'error',
+                    'message' => $exception->getMessage(),
+                ]);
+            }
             return new JsonResponse([
                 'status'=> 'success',
                 'message' => 'user not found'
@@ -129,4 +156,9 @@ class DefaultController extends AbstractController
 
 
     }
+    public function updateUser(Request $request)
+    {
+
+    }
+
 }

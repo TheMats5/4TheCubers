@@ -6,6 +6,8 @@ use App\Entity\Friend;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @method Friend|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,9 +28,9 @@ class FriendsRepository extends ServiceEntityRepository
         $results = $this->createQueryBuilder('friend')
             ->where('friend.receiver_id = :userId')
             ->Orwhere('friend.sender_id = :userId')
-            ->Andwhere('friend.type = :accepted')
+            ->Andwhere('friend.type = :request_accepted')
             ->setParameter('userId', $user->getId())
-            ->setParameter('accepted', 'accepted')
+            ->setParameter('request_accepted', 'request_accepted')
             ->getQuery()
             ->getResult();
 
@@ -36,13 +38,32 @@ class FriendsRepository extends ServiceEntityRepository
 
     }
 
-    public function createFriendRequest(User $user, user $invitee)
+    public function createFriendRequest(User $user, User $invitee)
     {
+        if($user->getId()===$invitee->getId()){
+            throw new Exception("You can't invite yourself");
+        }
+        $results = $this->createQueryBuilder('friend')
+            ->where('friend.receiver_id = :userId')
+            ->Orwhere('friend.sender_id = :userId')
+            ->andWhere('friend.receiver_id = :inviteeId')
+            ->orWhere('friend.sender_id = :inviteeId')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('inviteeId', $invitee->getId())
+            ->getQuery()
+            ->getResult();
+
+        if($results){
+            throw new Exception("you already invited him");
+
+        }
+
         $friend = new Friend();
         $friend->setSenderId($user->getId());
         $friend->setReceiverId($invitee->getId());
         $friend->setType('request_received');
         $this->saveFriend($friend);
+        return new Response('successfully added friend', 200);
 
     }
 
@@ -79,7 +100,7 @@ class FriendsRepository extends ServiceEntityRepository
 
         /** @var Friend $friend */
         $friend = $results[0];
-        $friend->setType('accepted');
+        $friend->setType($requestType);
         $this->getEntityManager()->merge($friend);
         $this->getEntityManager()->flush();
         return $friend;

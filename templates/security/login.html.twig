@@ -55,8 +55,7 @@
                             </div>
                                 {{ form_widget(registrationForm.email) }}
                                 {{ form_widget(registrationForm.username) }}
-                                {{ form_widget(registrationForm.plainPassword.first) }}
-                                {{ form_widget(registrationForm.plainPassword.second) }}
+                                {{ form_widget(registrationForm.password) }}
                                 <button class="btn">Sign up</button>
                             <input type="hidden" name="_csrf_token"
                                    value="{{ csrf_token('authenticate') }}"

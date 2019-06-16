@@ -32,6 +32,18 @@ const $ = require('jquery');
 
 $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
+    lasttimeseen();
+    let _lasttimeseen = setInterval(lasttimeseen, 600000);
+    function lasttimeseen() {
+        $.ajax({
+            url: "/check-online",
+            type: "POST",
+            data: {
+
+            },
+            success: function (msg) {}
+        });
+    }
 
 });
 

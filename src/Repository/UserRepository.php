@@ -26,7 +26,7 @@ class UserRepository extends ServiceEntityRepository
     public function getUserById($id)
     {
         $em = $this->getEntityManager();
-        $user = $em->getRepository('App\Entity\User')->findBy(['id'=>$id]);
+        $user = $em->getRepository('App\Entity\User')->findOneBy(['id'=>$id]);
 
         if(!$user){
             throw new NotFoundHttpException('The user does not exist');
@@ -37,7 +37,8 @@ class UserRepository extends ServiceEntityRepository
     public function getUserByUsername($username)
     {
 
-        $user = $this->getEntityManager()->findBy(['username'=>$username]);
+        $em = $this->getEntityManager();
+        $user = $em->getRepository('App\Entity\User')->findOneBy(['username'=>$username]);
         if(!$user){
             throw new NotFoundHttpException('The user does not exist');
         }

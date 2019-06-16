@@ -5,15 +5,15 @@
 {% block body %}
     </head>
     <body>
-
     <div class="sidenav">
-        <div class="d-flex justify-content-center">
-            <div class="profile-picture"></div>
-        </div>
+                <div class="d-flex justify-content-center">
+                    <img src="{{ asset(user.profilePicture )}}" alt="" class="profile-picture">
+                </div>
 
-        <div class="d-flex justify-content-center">
-            <div class="profile-name">{{ user.username }}</div>
-        </div>
+                <div class="d-flex justify-content-center">
+                    <div class="profile-name">{{ user.username }}</div>
+                </div>
+
         <div class="d-flex">
             <div class="nav-highlight"></div>
             <a class="d-flex active" href="#dashboard"><img class="nav-icon home-icon"
@@ -26,13 +26,18 @@
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
-            <a href="{{ path('friends') }}" class="notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends {% if amounntOfRequest > 0 %}<div class="notification-counter">{{ amounntOfRequest }}</div> {% endif %}</a>
+            <a href="{{ path('friends') }}" class="notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends {% if amountOfRequest > 0 %}<div class="notification-counter">{{ amountOfRequest }}</div> {% endif %}</a>
         </div>
         <div class="d-flex">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn settings-button" data-toggle="modal" data-target="#myProfileModal">
             <div class="nav-not-highlight"></div>
-            <a href="#Settings"><img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Settings</a>
+                <img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Profile</button>
         </div>
 
+        <div>
+            <a class='btn logout-button' href="/logout">Logout</a>
+        </div>
     </div>
     <div class="d-flex justify-content-between top">
         <h2>Dashboard</h2>
@@ -100,11 +105,20 @@
                             <div class="dashboard-friends d-flex">
                                 {% for friend in allOnlineFriends %}
                                 <div class="dashboard-friend">
-                                    <div class="friend-avatar"></div>
+                                    <img src="{{ asset(friend.profilePicture) }}" alt="" class="friend-avatar">
                                     <div class="dot"></div>
                                     <div class="friend-name">{{ friend.username }}</div>
                                 </div>
                                 {% endfor %}
+                                {% if allOnlineFriends is empty %}
+                                    <div class="online-friends-div d-flex justify-content-center">
+                                        <p>None of your friends are online</p>
+                                        <button type="button" class="btn btn-primary add-friends-modal-button" data-toggle="modal" data-target="#exampleModalCenter">
+                                            Add more friends
+                                        </button>
+                                    </div>
+                                {% endif %}
+
                                 {% if friends is empty %}
                                     <div class="online-friends-div d-flex justify-content-center">
                                         <p>You don't have any friends yet.</p>
@@ -215,7 +229,63 @@
             </div>
         </div>
     </div>
-    </body>
+    <!-- add friend Modal -->
+    <div class="my-modal modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content add-friend-content">
+                <button type="button" class="close add-friend-x-button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="modal-header d-flex justify-content-center">
+                    <h3>Add friends</h3>
+                </div>
+                <div class="modal-body ">
+                    <h3 class="error-user"></h3>
+                    <input class="add-friend-input"type="text">
+                    <button type="button" class="btn btn-primary add-friend-button">Add friend</button>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary add-friend-close-button" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Profile Modal -->
+    <div class="modal fade" id="myProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            {{ form_start(profileForm, { attr: {novalidate: 'novalidate'} }) }}
+            <div class="modal-content profile-modal-content">
+                <div class="text-center modal-header profile-modal-header d-flex justify-content-center">
+                    <h3 class="edit-profile-title">Edit your profile</h3>
+                </div>
+
+                <div class="modal-body profile-modal-body">
+                    <div class="edit-profile-header">
+                        <div class="profile-pic-div">
+                            <img src="{{ asset(user.profilePicture )}}" alt="" class="profile-pic-settings">
+                        </div>
+
+                        <label class="btn input-file-button">
+                            <i class="fa fa-image"></i> Upload new image{{ form_row(profileForm.profilePicture) }}
+                        </label>
+                    </div>
+
+                    <div class="edit-profile-inputs">
+                        <p class="label first-edit-label">Username</p>
+                        {{ form_row(profileForm.username) }}
+                        <p class="label">Email</p>
+                        {{ form_row(profileForm.email) }}
+                        {{ form_row(profileForm.submit) }}
+                    </div>
+
+                </div>
+                <div class="modal-footer profile-modal-footer">
+
+                </div>
+            </div>
+            {{ form_end(profileForm) }}
+        </div>
+    </div>
 
 {% endblock %}
 
@@ -224,18 +294,18 @@
     <script>
 
         $(document).ready(function () {
-            lasttimeseen();
-            let _lasttimeseen = setInterval(lasttimeseen, 30000);
-            function lasttimeseen() {
-                $.ajax({
-                    url: "/check-online",
-                    type: "POST",
-                    data: {
+            function testAnim(x) {
+                $('.modal .modal-dialog').attr('class', 'modal-dialog  ' + x + '  animated');
+            };
+            $('#myProfileModal').on('show.bs.modal', function (e) {
+                var anim = 'fadeInLeft';
+                testAnim(anim);
+            })
+            $('#myProfileModal').on('hide.bs.modal', function (e) {
+                var anim = 'fadeOutLeft';
+                testAnim(anim);
+            })
 
-                    },
-                    success: function (msg) {}
-                });
-            }
             $(".add-friend-button").click(function(){
                 let username = $(".add-friend-input").val();
                 $.ajax({

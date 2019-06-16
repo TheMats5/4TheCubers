@@ -25,12 +25,11 @@
     background-color: $lightblue;
   }
   & .profile-picture{
-    width: 103px;
-    height: 103px;
-    background-color: #2455ba;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    margin-top: 50px;
-    margin-bottom: 10px;
+    display: block;
+    margin: 50px auto 15px auto
   }
   & .profile-name{
     height: 12px;
@@ -48,7 +47,6 @@
 }
 .nav-not-highlight{
   width: 8px;
-
 }
 .nav-icon{
   width: auto;
@@ -57,4 +55,34 @@
 }
 .home-icon{
   margin-top: 2px;
+}
+
+
+
+.settings-button{
+  padding:0px;
+  padding-right: 40px !important;
+  margin:0px;
+  text-decoration: none;
+  font-size: 25px;
+  width: 217px;
+  height: 52px;
+  color: $white;
+  &:hover{
+    color:$white;
+  }
+}
+
+.logout-button{
+  position: absolute;
+  bottom:130px;
+  border: 2px solid $error;
+  border-radius: 15px;
+  width:150px !important;
+  transition: 0.3s;
+  margin-left: 15%;
+  &:hover{
+    color:white;
+    background-color: $error;
+  }
 }

@@ -7,31 +7,32 @@
     <body>
     <div class="sidenav">
         <div class="d-flex justify-content-center">
-            <div class="profile-picture"></div>
+            <img src="{{ asset(user.profilePicture )}}" alt="" class="profile-picture">
         </div>
 
         <div class="d-flex justify-content-center">
             <div class="profile-name">{{ user.username }}</div>
         </div>
+
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
             <a class="d-flex" href="{{ path('dashboard') }}"><img class="nav-icon home-icon"
-                                                                  src="{{ asset('build/images/home.png') }}" alt="">Dashboard</a>
+                                                            src="{{ asset('build/images/home.png') }}" alt="">Dashboard</a>
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
-            <a href="#Statistics"><img class="nav-icon" src="{{ asset('build/images/stats.png') }}"
-                                       alt="">Statistics</a>
+            <a href="#Statistics"><img class="nav-icon" src="{{ asset('build/images/stats.png') }}" alt="">Statistics</a>
         </div>
         <div class="d-flex">
             <div class="nav-highlight"></div>
-            <a href="{{ path('friends') }}" class="active notification-container"><img class="nav-icon"
-                                                                                       src="{{ asset('build/images/friends.png') }}"
-                                                                                       alt="">Friends</a>
+            <a href="#" class="active notification-container"><img class="nav-icon"
+                                                                                       src="{{ asset('build/images/friends.png') }}" alt="">Friends</a>
         </div>
         <div class="d-flex">
-            <div class="nav-not-highlight"></div>
-            <a href="#Settings"><img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Settings</a>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn settings-button" data-toggle="modal" data-target="#myProfileModal">
+                <div class="nav-not-highlight"></div>
+                <img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Profile</button>
         </div>
 
     </div>
@@ -41,53 +42,111 @@
     </div>
     <div class="main">
 
-            <div class="messages"></div>
+        <div class="messages"></div>
 
         <div class="friends-main-container d-flex">
 
-            <div class="friends-left"></div>
-            <div class="friends-middle"></div>
+            <div class="friends-left">
+                <div class="frienslist-header d-flex pt-4" style="position: fixed">
+                    <img class="friendslist-icon" src="{{ asset('build/images/friends-blue.png') }}" alt="">
+                    <h2 class="friends-title">Friendslist</h2>
+                </div>
+                <div class="dots-img">
+                    <img src="{{ asset('build/images/3dots.png') }}" alt="">
+                </div>
+                <ul>
+
+                    {% for friend in friendslist %} }}
+                    <li class="d-flex">
+                        <div style="position: relative">
+                        <img class="friends-avatar" src="{{ asset( friend.profilePicture ) }}" alt="">
+                            {% if date(friend.lastActive) < date('-10minutes') %}
+                                <div style="position: absolute; background-color:#970000" class="friendslist-dot"></div>
+                            {% else %}
+                                <div style="position: absolute;" class="friendslist-dot"></div>
+                            {% endif %}
+                        </div>
+                            <h2 class="friends-name">
+                                {{ friend.username }}
+                            </h2>
+                        <div class="dots"></div>
+
+                    </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+            <div class="friends-middle">
+                <div>
+
+                    <select class="selectpicker select-cube-type" data-style="custom-button">
+                        <optgroup label="regular">
+                            <option value="222">2x2x2</option>
+                            <option selected="selected" value="333">3x3x3</option>
+                            <option value="444">4x4x4</option>
+                            <option value="555">5x5x5</option>
+                            <option value="666">6x6x6</option>
+                            <option value="777">7x7x7</option>
+                        </optgroup>
+                        <optgroup label="blindfolded">
+                            <option value="333bf">3x3x3</option>
+                            <option value="444bf">4x4x4</option>
+                            <option value="555bf">5x5x5</option>
+                        </optgroup>
+                        <optgroup label="other">
+                            <option value="minx">Megaminx</option>
+                            <option value="pyram">Pyraminx</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="rankList"></div>
+            </div>
+
             <div class="friends-right">
-                    <button type="button" class="friends-right-top d-flex justify-content-center btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <div class="right-top d-flex">
+                    <button type="button" class="friends-right-button d-flex justify-content-center btn btn-primary"
+                            data-toggle="modal" data-target="#exampleModalCenter">
                         Add friends
                     </button>
-                <div class="friends-right-bottom">
-                    <div class="dropdown">
-                        <button class="dropdown-toggle friend-dropdown" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Friend requests
-                        </button>
-                        <div class="dropdown-menu friend-dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            {% if allRequestSenders|length > 0 %}
-                                {% for friend in allRequestSenders %}
-                                    <div class="d-flex dropdown-friends " id="{{ friend.id }}">
-                                        <div>
-                                            <img class="dropdown-friend-avatar" src="{{ asset('build/images/friends-blue.png') }}" alt="">
-                                        </div>
-                                        <div class="{{ friend.id }}">
-                                            <p class="friend-dropdown-name">{{ friend.username }}</p>
-
+                        <div class="dropdown">
+                            <button class="dropdown-toggle friend-dropdown" type="button" id="dropdownMenuButton"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Friend requests
+                            </button>
+                            <div class="dropdown-menu friend-dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                {% if allRequestSenders|length > 0 %}
+                                    {% for friend in allRequestSenders %}
+                                        <div class="d-flex dropdown-friends " id="{{ friend.id }}">
                                             <div>
-                                                <button value ="{{ friend.id }}" class="btn request-button accept-request-button">accept</button>
-                                                <button value ="{{ friend.id }}" class="btn request-button reject-request-button">delete</button>
+                                                <img class="dropdown-friend-avatar"
+                                                     src="{{ asset('build/images/friends-blue.png') }}" alt="">
+                                            </div>
+                                            <div class="{{ friend.id }}">
+                                                <p class="friend-dropdown-name">{{ friend.username }}</p>
+
+                                                <div class="d-flex">
+                                                    <button value="{{ friend.id }}" class="btn request-button accept-request-button">accept</button>
+                                                    <button value="{{ friend.id }}" class="btn request-button reject-request-button">delete</button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                {% endfor %}
+                                    {% endfor %}
                                 {% else %}
                                     <div class="d-flex dropdown-friends">
                                         <div class="">
                                             <p class="friend-dropdown-name">you have no friend requests</p>
                                         </div>
                                     </div>
-                            {% endif %}
-                        </div>
+                                {% endif %}
+                            </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Modal -->
-    <div class="my-modal modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="my-modal modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content add-friend-content">
                 <button type="button" class="close add-friend-x-button" data-dismiss="modal" aria-label="Close">
@@ -98,13 +157,50 @@
                 </div>
                 <div class="modal-body ">
                     <h3 class="error-user"></h3>
-                    <input class="add-friend-input"type="text">
+                    <input class="add-friend-input" type="text">
                     <button type="button" class="btn btn-primary add-friend-button">Add friend</button>
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-secondary add-friend-close-button" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary add-friend-close-button" data-dismiss="modal">Close
+                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+    <!--Profile Modal -->
+    <div class="modal fade" id="myProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            {{ form_start(profileForm, { attr: {novalidate: 'novalidate'} }) }}
+            <div class="modal-content profile-modal-content">
+                <div class="text-center modal-header profile-modal-header d-flex justify-content-center">
+                    <h3 class="edit-profile-title">Edit your profile</h3>
+                </div>
+
+                <div class="modal-body profile-modal-body">
+                    <div class="edit-profile-header">
+                        <div class="profile-pic-div">
+                            <img src="{{ asset(user.profilePicture )}}" alt="" class="profile-pic-settings">
+                        </div>
+
+                        <label class="btn input-file-button">
+                            <i class="fa fa-image"></i> Upload new image{{ form_row(profileForm.profilePicture) }}
+                        </label>
+                    </div>
+
+                    <div class="edit-profile-inputs">
+                        <p class="label">Username</p>
+                        {{ form_row(profileForm.username) }}
+                        <p class="label">Email</p>
+                        {{ form_row(profileForm.email) }}
+                        {{ form_row(profileForm.submit) }}
+                    </div>
+
+                </div>
+                <div class="modal-footer profile-modal-footer">
+
+                </div>
+            </div>
+            {{ form_end(profileForm) }}
         </div>
     </div>
     </body>
@@ -116,23 +212,31 @@
     <script>
 
         $(document).ready(function () {
+            let cubeType = $('.select-cube-type').val();
+            getRankList();
+            $('.select-cube-type').change(function () {
+                cubeType = $(this).val();
+                getRankList();
+            })
             let requestType;
             let clicked = false;
             $('.request-button').one("click", function () {
                 let senderId = $(this).val()
-                if($(this).html() === 'accept'){
-                    requestType = 'accepted';
+                console.log($(this).html());
+                if ($(this).html() === 'accept') {
+                    requestType = 'request_accepted';
                     clicked = true;
                     sendAnswer(requestType, senderId);
-                    $("#"+senderId).remove();
+                    $("#" + senderId).remove();
 
-                } else if ($(this).html() === 'delete'){
-                    requestType = 'delete';
+                } else if ($(this).html() === 'delete') {
+                    requestType = 'request_deleted';
                     clicked = true;
                     sendAnswer(requestType, senderId);
-                    $("#"+senderId).remove();
+                    $("#" + senderId).remove();
                 }
-                function sendAnswer(requestType, senderId){
+
+                function sendAnswer(requestType, senderId) {
                     $.ajax({
                         type: "POST",
                         url: 'send-friend-answer',
@@ -142,34 +246,62 @@
                             senderId: senderId,
                         },
                         success: function (response) {
-                            if(response.status === "success") {
+                            if (response.status === "success") {
                                 $('.messages').addClass('friend-added-successfully');
                                 $('.messages').html(response.message);
 
                                 setTimeout(function () {
-                                    $('.messages').fadeTo(1000, 0.01, function(){
-                                        $(this).slideUp(150, function() {
+                                    $('.messages').fadeTo(1000, 0.01, function () {
+                                        $(this).slideUp(150, function () {
                                             $(this).remove();
                                         });
                                     });
-                                },3000)
-                            } else if(response.status === "error") {
+                                }, 3000)
+                            } else if (response.status === "error") {
                                 $('.messages').addClass('friend-deleted-successfully');
                                 $('.messages').html(response.message);
-
                                 setTimeout(function () {
-                                    $('.messages').fadeTo(1000, 0.01, function(){
-                                        $(this).slideUp(150, function() {
+                                    $('.messages').fadeTo(1000, 0.01, function () {
+                                        $(this).slideUp(150, function () {
                                             $(this).remove();
                                         });
                                     });
-                                },3000)
+                                }, 3000)
                             }
                         }
                     });
                 }
 
+
             })
+            function getRankList(){
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax-get-ranking",
+                    dataType: 'JSON',
+                    data: {
+                        type: cubeType
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        var ranking = '<ul class="ranking">';
+                        $.each(response, function (index, rank) {
+                            console.log(rank.username);
+                            if (rank.quantity > 0) {
+                                ranking += '<li class="ranking-available">';
+                            } else {
+                                ranking += '<li class="no friends">'
+                            }
+                            ranking += rank.profilePicture;
+                            ranking += rank.username;
+                            ranking += '</li>';
+                        });
+                        ranking += "</ul>";
+                        console.log(ranking);
+                        $('#rankList').html(ranking);
+                    }
+                });
+            }
         });
     </script>
 {% endblock %}

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190606131618 extends AbstractMigration
+final class Version20190616124032 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20190606131618 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE solve ADD created_at DATETIME NOT NULL, CHANGE plus2 plus2 TINYINT(1) NOT NULL');
+        $this->addSql('ALTER TABLE user ADD last_active DATETIME DEFAULT NULL');
     }
 
     public function down(Schema $schema) : void
@@ -30,6 +30,6 @@ final class Version20190606131618 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('ALTER TABLE solve DROP created_at, CHANGE plus2 plus2 TINYINT(1) DEFAULT NULL');
+        $this->addSql('ALTER TABLE user DROP last_active');
     }
 }

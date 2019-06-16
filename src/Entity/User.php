@@ -39,7 +39,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $last_active;
+    private $lastActive;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $profilePicture;
 
 
     public function getId(): ?int
@@ -102,12 +107,24 @@ class User implements UserInterface
 
     public function getLastActive(): \DateTime
     {
-        return $this->last_active;
+        return $this->lastActive;
     }
 
-    public function setLastActive(\DateTime $last_active): self
+    public function setLastActive(\DateTime $lastActive): self
     {
-        $this->last_active = $last_active;
+        $this->lastActive = $lastActive;
+
+        return $this;
+    }
+
+    public function getProfilePicture(): ?string
+    {
+        return $this->profilePicture;
+    }
+
+    public function setProfilePicture(string $profilePicture): self
+    {
+        $this->profilePicture = $profilePicture;
 
         return $this;
     }
