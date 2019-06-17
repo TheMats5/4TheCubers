@@ -118,7 +118,7 @@ class friendController extends AbstractController
         $user = $this->getUser();
         $friends = $friendsRepository->getAllFriends($user);
         $friendsList = $friendService->getListOfFriendsOrderedByLogin($friends, $user);
-        $type = $request->request->get('searchByType');
+        $type = $request->request->get('type');
         $friendsRanking = $friendService->getListOfFriendsWithRanking($friendsList, $user, $type);
 
         return new JsonResponse($friendsRanking);

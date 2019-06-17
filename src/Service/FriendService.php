@@ -82,24 +82,27 @@ class FriendService
     public function getListOfFriendsWithRanking($friendsList, User $user, $type)
     {
         array_push($friendsList, $user);
-        if($type === null){
+        if($type === ''){
             $type = '333';
         }
         $rankList = [];
         /** @var User $friend */
         foreach($friendsList as $friend){
+
           $bestSolve = $this->solveRepository->getBestSolve($friend, $type);
           $idk = [
               'username' => $friend->getUsername(),
               'profilePic' => $friend->getProfilePicture(),
               'time' => $bestSolve,
           ];
-            array_push($rankList, $idk);
+          if($bestSolve !== 0){
+              array_push($rankList, $idk);
+          }
 
         }
         foreach($rankList as $c=>$key)
         $dateTime[] = $key['time'];
-        array_multisort($dateTime,SORT_DESC,SORT_STRING,$rankList);
+        array_multisort($dateTime,SORT_ASC,SORT_STRING,$rankList);
         return $rankList;
     }
 }

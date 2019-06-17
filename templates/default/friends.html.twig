@@ -49,7 +49,7 @@
             <div class="friends-left">
                 <div class="frienslist-header d-flex pt-4" style="position: fixed">
                     <img class="friendslist-icon" src="{{ asset('build/images/friends-blue.png') }}" alt="">
-                    <h2 class="friends-title">Friendslist</h2>
+                    <h2 class="friends-title">Friends list</h2>
                 </div>
                 <div class="dots-img">
                     <img src="{{ asset('build/images/3dots.png') }}" alt="">
@@ -57,7 +57,7 @@
                 <ul>
 
                     {% for friend in friendslist %} }}
-                    <li class="d-flex">
+                    <li class="d-flex friendcontainer">
                         <div style="position: relative">
                         <img class="friends-avatar" src="{{ asset( friend.profilePicture ) }}" alt="">
                             {% if date(friend.lastActive) < date('-10minutes') %}
@@ -77,9 +77,8 @@
 
             </div>
             <div class="friends-middle">
-                <div>
-
-                    <select class="selectpicker select-cube-type" data-style="custom-button">
+                <div class="d-flex justify-content-between ranking-header">
+                    <select id='select-rank' class="selectpicker select-cube-type" data-style="custom-rank-button">
                         <optgroup label="regular">
                             <option value="222">2x2x2</option>
                             <option selected="selected" value="333">3x3x3</option>
@@ -98,8 +97,17 @@
                             <option value="pyram">Pyraminx</option>
                         </optgroup>
                     </select>
+                    <h2 class="ranking-title">Ranking</h2>
                 </div>
-                <div class="rankList"></div>
+
+                <div class="rankList">
+                    <table id="rank-table">
+
+                    </table>
+                    <div class="dots-img">
+                        <img src="{{ asset('build/images/3dots.png') }}" alt="">
+                    </div>
+                </div>
             </div>
 
             <div class="friends-right">
@@ -139,6 +147,48 @@
                                     </div>
                                 {% endif %}
                             </div>
+                    </div>
+                </div>
+                <div class="right-bottom">
+                    <div class="textfield" id="out" style="overflow:auto">
+                        <div id="try" class="text-messages">
+                            <div class="receiver">
+                                <h3>themats</h3>
+                                <p class="chat-message ">ik</p>
+                                <span class="timestamp">19.03</span>
+                            </div>
+                            <div class="sender">
+                                <h3>themats</h3>
+                                <p class="chat-message ">ik</p>
+                                <span class="timestamp">19.03</span>
+                            </div>
+                            <div class="receiver">
+                                <h3>themats</h3>
+                                <p class="chat-message ">ik</p>
+                                <span class="timestamp">19.03</span>
+                            </div>
+                            <div class="sender">
+                                <h3>themats</h3>
+                                <p class="chat-message ">ik</p>
+                                <span class="timestamp">19.03</span>
+                            </div>
+                            <div class="receiver">
+                                <h3>themats</h3>
+                                <p class="chat-message ">ik</p>
+                                <span class="timestamp">19.03</span>
+                            </div>
+                            <div class="sender">
+                                <h3>themats</h3>
+                                <p class="chat-message ">ik</p>
+                                <span class="timestamp">19.03</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="msg-text">
+                        <textarea placeholder="click here to start typing!" class="msg-textarea"  name="text" rows="3" cols="51" wrap="soft"></textarea>
+                        <input class="btn send-msg-button" value="Send" type="submit">
                     </div>
                 </div>
             </div>
@@ -212,12 +262,18 @@
     <script>
 
         $(document).ready(function () {
-            let cubeType = $('.select-cube-type').val();
-            getRankList();
-            $('.select-cube-type').change(function () {
-                cubeType = $(this).val();
-                getRankList();
+            $('.send-msg-button').click(function () {
+                $('#try').append('<div class="sender"><h3>themats</h3><p class="chat-message ">ik</p><span class="timestamp">19.03</span></div>')
+                var objDiv = document.getElementById("out");
+                objDiv.scrollTop = objDiv.scrollHeight;
             })
+            let cubeType = $('#select-rank').val();
+            getRankList();
+            $('#select-rank').change(function () {
+                cubeType = $(this).val();
+                console.log(cubeType);
+                getRankList();
+            });
             let requestType;
             let clicked = false;
             $('.request-button').one("click", function () {
@@ -274,6 +330,7 @@
 
 
             })
+
             function getRankList(){
                 $.ajax({
                     type: "POST",
@@ -283,24 +340,27 @@
                         type: cubeType
                     },
                     success: function (response) {
-                        console.log(response);
-                        var ranking = '<ul class="ranking">';
+                            let counter = 1;
+                            table = $("#rank-table");
+                        $('tr').remove();
+                        // iterate over the array and build the list
                         $.each(response, function (index, rank) {
-                            console.log(rank.username);
-                            if (rank.quantity > 0) {
-                                ranking += '<li class="ranking-available">';
-                            } else {
-                                ranking += '<li class="no friends">'
-                            }
-                            ranking += rank.profilePicture;
-                            ranking += rank.username;
-                            ranking += '</li>';
-                        });
-                        ranking += "</ul>";
-                        console.log(ranking);
-                        $('#rankList').html(ranking);
+                            var min = Math.floor(rank.time / 100 / 60);
+                            var sec = Math.floor(rank.time / 100);
+                            var mSec = rank.time % 100;
+                            if (min < 10) min = "0" + min;
+                            if (sec >= 60) sec = sec % 60;
+                            if (sec < 10) sec = "0" + sec;
+                            if (mSec < 10) mSec = "0" + mSec;
+                            let time = (min + ":" + sec + ":" + mSec);
+
+                            table.append("<tr>" + "<td class='rank-counter'>"+counter+"</td>"+"<td><img src="+rank.profilePic+" alt='' class='friend-avatar'></td>" + "<td style='text-align: left' ><h2 class='rank-name'>"+ rank.username+ "</h2></td> <td><span class='rank-time'>"+time+"</span>"+"</td>");
+                            counter++;
+                        })
+                        $("#rank-table").append(table);
                     }
                 });
+
             }
         });
     </script>
