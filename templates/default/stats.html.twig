@@ -85,7 +85,42 @@
         </div>
 
     </div>
+    <!--Profile Modal -->
+    <div class="modal fade" id="myProfileModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            {{ form_start(profileForm, { attr: {novalidate: 'novalidate'} }) }}
+            <div class="modal-content profile-modal-content">
+                <div class="text-center modal-header profile-modal-header d-flex justify-content-center">
+                    <h3 class="edit-profile-title">Edit your profile</h3>
+                </div>
 
+                <div class="modal-body profile-modal-body">
+                    <div class="edit-profile-header">
+                        <div class="profile-pic-div">
+                            <img src="{{ asset(user.profilePicture )}}" alt="" class="profile-pic-settings">
+                        </div>
+
+                        <label class="btn input-file-button">
+                            <i class="fa fa-image"></i> Upload new image{{ form_row(profileForm.profilePicture) }}
+                        </label>
+                    </div>
+
+                    <div class="edit-profile-inputs">
+                        <p class="label">Username</p>
+                        {{ form_row(profileForm.username) }}
+                        <p class="label">Email</p>
+                        {{ form_row(profileForm.email) }}
+                        {{ form_row(profileForm.submit) }}
+                    </div>
+
+                </div>
+                <div class="modal-footer profile-modal-footer">
+
+                </div>
+            </div>
+            {{ form_end(profileForm) }}
+        </div>
+    </div>
     </body>
 
 {% endblock %}
