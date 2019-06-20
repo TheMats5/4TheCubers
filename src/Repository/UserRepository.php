@@ -39,9 +39,7 @@ class UserRepository extends ServiceEntityRepository
 
         $em = $this->getEntityManager();
         $user = $em->getRepository('App\Entity\User')->findOneBy(['username'=>$username]);
-        if(!$user){
-            throw new NotFoundHttpException('The user does not exist');
-        }
+
         return $user;
     }
 

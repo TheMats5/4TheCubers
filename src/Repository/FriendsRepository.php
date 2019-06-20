@@ -44,17 +44,26 @@ class FriendsRepository extends ServiceEntityRepository
             throw new Exception("You can't invite yourself");
         }
         $results = $this->createQueryBuilder('friend')
-            ->where('friend.receiver_id = :userId')
-            ->Orwhere('friend.sender_id = :userId')
-            ->andWhere('friend.receiver_id = :inviteeId')
-            ->orWhere('friend.sender_id = :inviteeId')
+            ->where('friend.receiver_id = :inviteeId')
+            ->andWhere('friend.sender_id = :userId')
             ->setParameter('userId', $user->getId())
             ->setParameter('inviteeId', $invitee->getId())
             ->getQuery()
             ->getResult();
 
-        if($results){
-            throw new Exception("you already invited him");
+        $results2 = $this->createQueryBuilder('friend')
+            ->where('friend.receiver_id = :userId')
+            ->andWhere('friend.sender_id = :inviteeId')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('inviteeId', $invitee->getId())
+            ->getQuery()
+            ->getResult();
+        if(empty($results) && !empty($results2)){
+            throw new Exception("you already got an invite from that person.");
+
+
+        } elseif (!empty($results) && empty($results2)){
+            throw new Exception("you already invited that person.");
 
         }
 
@@ -116,7 +125,7 @@ class FriendsRepository extends ServiceEntityRepository
             $now = date("Y-m-d H:i:s");
             $datetime = \DateTime::createFromFormat("Y-m-d H:i:s", $now);
            $timeDiff = $lastActive->diff($datetime);
-           if($timeDiff->i > 10){
+           if( $timeDiff->y === 0 && $timeDiff->m === 0 && $timeDiff->h === 0 && $timeDiff->i < 10 ){
                array_push($onlineFriends, $friend);
            }
            return $onlineFriends;

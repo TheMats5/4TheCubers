@@ -6,6 +6,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UpdateProfileForm;
 use App\Repository\FriendsRepository;
+use App\Repository\MessageRepository;
 use App\Repository\UserRepository;
 use App\Service\FriendService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,7 +24,7 @@ class friendController extends AbstractController
      * @Route("/friends", name="friends")
      * @Template
      */
-    public function friends(FriendsRepository $friendsRepository, UserRepository $userRepository, Request $request, FriendService $friendService)
+    public function friends(MessageRepository $messageRepository, FriendsRepository $friendsRepository, UserRepository $userRepository, Request $request, FriendService $friendService)
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -35,11 +36,10 @@ class friendController extends AbstractController
         $friendRequests = $friendsRepository->getRequestedFriendships($user);
         $amountOfRequest = count($friendRequests);
         $friendsList = $friendService->getListOfFriendsOrderedByLogin($friends, $user);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
-            $file = $request->files->get('update_profile_form')['profile_picture'];
+            $file = $request->files->get('update_profile_form')['profilePicture'];
             if(null !== $file){
                 $uploads_directory = $this->getParameter('uploads_directory');
                 $filename = md5(uniqid()) . '.' . $file->guessExtension();
@@ -76,7 +76,6 @@ class friendController extends AbstractController
         $requestType = $request->request->get('requestType');
         $senderId = $request->request->get('senderId');
         try{
-
             /** @var User $sender */
             $sender = $userRepository->getUserById($senderId);
         } catch (\Exception $exception){
@@ -123,4 +122,7 @@ class friendController extends AbstractController
 
         return new JsonResponse($friendsRanking);
     }
+
+
+
 }

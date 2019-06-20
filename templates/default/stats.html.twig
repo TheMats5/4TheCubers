@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}4TheCubers{% endblock %}
+
+{% block body %}
+    </head>
+    <body>
+    <div class="sidenav">
+        <div class="d-flex justify-content-center">
+            <img src="{{ asset(user.profilePicture )}}" alt="" class="profile-picture">
+        </div>
+
+        <div class="d-flex justify-content-center">
+            <div class="profile-name">{{ user.username }}</div>
+        </div>
+
+        <div class="d-flex">
+            <div class="nav-not-highlight"></div>
+            <a class="d-flex" href="{{ path('dashboard') }}"><img class="nav-icon home-icon"
+                                                                  src="{{ asset('build/images/home.png') }}" alt="">Dashboard</a>
+        </div>
+        <div class="d-flex">
+            <div class="nav-not-highlight"></div>
+            <a href="#"><img class="nav-icon" src="{{ asset('build/images/stats.png') }}" alt="">Statistics</a>
+        </div>
+        <div class="d-flex">
+            <div class="nav-highlight"></div>
+            <a href="{{ path('friends') }}" class="active notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends{% if amountOfRequest > 0 %}<div class="notification-counter">{{ amountOfRequest }}</div> {% endif %}</a>
+        </div>
+        <div class="d-flex">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn settings-button" data-toggle="modal" data-target="#myProfileModal">
+                <div class="nav-not-highlight"></div>
+                <img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Profile</button>
+        </div>
+        <div>
+            <a class='btn logout-button' href="/logout">Logout</a>
+        </div>
+
+    </div>
+    <div class="d-flex justify-content-between top">
+        <h2>Friends</h2>
+        <h1 class="title">4TheCubers.<span class="title-span">net</span></h1>
+    </div>
+    <div class="main">
+
+        <div class="messages"></div>
+        <div class="stats-left-container">
+            <table class="table table-sm table-bordered mt-3 datatable">
+                <thead>
+                <tr>
+                    <th>
+                        time
+                    </th>
+                    <th>
+                        type
+                    </th>
+                    <th>
+                        scramble
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for solve in allStats %}
+
+                    <tr>
+                        <td>
+                            {% if solve.time is null %}
+                                DNF
+                            {% else %}
+                                {{ solve.time }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ solve.type }}
+                        </td>
+                        <td>
+                            {{ solve.scramble }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </body>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready( function () {
+            $('.datatable').DataTable();
+        } );
+
+    </script>
+{% endblock %}

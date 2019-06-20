@@ -52,7 +52,7 @@ class FriendService
     public function getListOfFriendsOrderedByLogin($friends, User $user)
     {
         $friendArray = [];
-        if($friends !== ''){
+        if(!empty($friends)){
             $i= 0;
             /** @var Friend $friend */
             foreach ($friends as $friend) {
@@ -100,9 +100,11 @@ class FriendService
           }
 
         }
-        foreach($rankList as $c=>$key)
-        $dateTime[] = $key['time'];
-        array_multisort($dateTime,SORT_ASC,SORT_STRING,$rankList);
+        if(!empty($rankList)){
+            foreach($rankList as $c=>$key)
+                $dateTime[] = $key['time'];
+            array_multisort($dateTime,SORT_DESC,SORT_STRING,$rankList);
+        }
         return $rankList;
     }
 }

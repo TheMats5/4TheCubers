@@ -30,7 +30,6 @@ class DefaultController extends AbstractController
             $userRepository->setLastActiveForUser($user);
             $friends = $friendsRepository->getAllFriends($user);
             $friendsList = $friendService->getListOfFriends($friends, $user);
-
             $allOnlineFriends = $friendsRepository->getAllOnlineFriend($friendsList);
             $friendRequests = $friendsRepository->getRequestedFriendships($user);
             $amountOfRequest = count($friendRequests);
@@ -55,7 +54,6 @@ class DefaultController extends AbstractController
                 $this->addFlash('success', 'your profile has been successfully updated');
                 return $this->redirectToRoute('dashboard');
             }
-
         return $this->render('default/dashboard.html.twig',[
             'user' => $user,
             'friends' => $friendsList,
@@ -94,20 +92,21 @@ class DefaultController extends AbstractController
     {
         $user = $this->getUser();
         $type = $request->request->get('searchByType');
-        $data = $solveRepository->getAllSolvesByUser($user, $type);
+        $data = $solveRepository->getAllSolvesByUserAndType($user, $type);
 
         return new JsonResponse($data);
     }
 
     /**
-     * @Route("/get-general-stats", name="get-general-stats", methods={"GET"})
+     * @Route("/get-general-stats", name="get-general-stats", methods={"POST", "GET"})
      */
-    public function getGeneralStats(SolveRepository $solveRepository)
+    public function getGeneralStats(SolveRepository $solveRepository, Request $request)
     {
         $user = $this->getUser();
-        $allSolves = $solveRepository->getAllSolvesCountByUser($user);
-        $allPlus2 = $solveRepository->getAllPlus2CountByUser($user);
-        $allDNF = $solveRepository->getAllDnfCountByUser($user);
+        $type = $request->request->get('type');
+        $allSolves = $solveRepository->getAllSolvesCountByUser($user, $type);
+        $allPlus2 = $solveRepository->getAllPlus2CountByUser($user, $type);
+        $allDNF = $solveRepository->getAllDnfCountByUser($user, $type);
 
         return new JsonResponse([$allSolves, $allPlus2, $allDNF]);
     }
@@ -132,7 +131,9 @@ class DefaultController extends AbstractController
     {
         $user = $this->getUser();
         $username = $request->request->get('username');
+        /** @var User $friend */
         $friend = $userRepository->getUserByUsername($username);
+
         if(empty($friend)){
             return new JsonResponse([
                 'status'=> 'error',
@@ -150,7 +151,7 @@ class DefaultController extends AbstractController
             }
             return new JsonResponse([
                 'status'=> 'success',
-                'message' => 'user not found'
+                'message' => 'friend request was succesfully send'
             ]);
         }
 

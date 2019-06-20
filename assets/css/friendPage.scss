@@ -77,10 +77,12 @@
   display: block;
   overflow: hidden;
   opacity: 0;
-  background-color: $deep-blue;
+  background-color: #3e4cb7;
   color: $white;
   outline:none;
   padding:0px;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 }
 
 .dropdown.show .dropdown-menu {
@@ -98,6 +100,7 @@
 .accept-request-button{
   color: $lightgreen;
   opacity: 0.8;
+  font-size:1.2em;
   &:hover{
     color: #20FF80;
 
@@ -105,15 +108,21 @@
 }
 .reject-request-button{
   color: $error;
+  opacity: 0.8;
+  font-size:1.2em;
+transition: 0.3s;
   &:hover{
+    opacity: 1;
+
     color:#FF1600;
 
   }
 }
 
 .dropdown-friend-avatar {
-  width: 30px !important;
-  height: 30px;
+  width: 40px !important;
+  height: 40px;
+  border-radius: 50%;
 }
 
 .friend-added-successfully{
@@ -137,6 +146,7 @@
   border-bottom: none;
 }
 .messages{
+  z-index: 15;
   margin-left: 25%;
   top:60px;
   font-size: 22px;
@@ -185,6 +195,9 @@
 
 .friendcontainer:last-child{
   border:none;
+}
+.friendcontainer{
+  cursor: pointer;
 }
 .friends-name{
   white-space: nowrap;
@@ -302,12 +315,17 @@
   overflow-x: hidden;
 }
 
-.right-bottom{
+.friends-right-bottom{
   background-color: $deep-blue;
   border-radius: 15px;
   width:22vw;
-  height:72vh;
+  height:140px;
+  //height:72vh;
   padding-top: 25px;
+  & h2{
+    color:white;
+    text-align: center;
+  }
 }
 .ranking-header{
   position: fixed;
@@ -328,8 +346,8 @@
   height: 77%;
   width: 90%;
   background-color: $darker-blue;
-  border-radius: 15px;
-  padding-top:15px
+  border-radius: 15px;;
+  display:none;
 }
 
 .msg-textarea{
@@ -338,7 +356,6 @@
 .send-msg-button{
   width: 140px !important;
   color: #fff;
-  background-color: transparent;
   border-radius: 15px;
   font-size: 22px;
   transition:0.3s;
@@ -351,6 +368,7 @@
 .msg-text{
   margin-left: 25px;
   border-radius: 24px;
+  display: none;
 }
 textarea{
   -webkit-border-radius: 15px;
@@ -362,6 +380,7 @@ textarea{
 
 .chat-message{
   color:white;
+  min-height: 15px;
   font-size:16px;
   overflow-wrap: break-word;
 }
@@ -387,7 +406,8 @@ textarea{
   & .timestamp{
     color:white;
     opacity:0.6;
-    margin-left: 80%;
+    z-index: 0;
+
   }
 }
 .receiver{
@@ -408,13 +428,41 @@ textarea{
     font-weight:400;
   }
   & .timestamp{
+    z-index: 0;
     color:white;
     opacity:0.6;
   }
 }
 .text-messages{
   width:92%;
-  height:95%;
+  height:90%;
   margin-left: auto;
   margin-right: auto;
+}
+.friend-message-title{
+  z-index: 5;
+  padding-top: 15px;
+  padding-left:15px;
+  padding-right:15px;
+  width:19.7vw;
+  background-color: $darker-blue;
+  height:50px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.text-messages{
+  margin-top: 50px;
+}
+
+.friends-notification-counter{
+  position: absolute;
+  top: 9px;
+  left: 170px;
+  background-color: #16b5dd;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font: 14px Roboto;
 }

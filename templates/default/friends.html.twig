@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block title %}4TheCubers{% endblock %}
 
 {% block body %}
     </head>
@@ -21,12 +21,11 @@
         </div>
         <div class="d-flex">
             <div class="nav-not-highlight"></div>
-            <a href="#Statistics"><img class="nav-icon" src="{{ asset('build/images/stats.png') }}" alt="">Statistics</a>
+            <a href="{{ path('stats') }}"><img class="nav-icon" src="{{ asset('build/images/stats.png') }}" alt="">Statistics</a>
         </div>
         <div class="d-flex">
             <div class="nav-highlight"></div>
-            <a href="#" class="active notification-container"><img class="nav-icon"
-                                                                                       src="{{ asset('build/images/friends.png') }}" alt="">Friends</a>
+            <a href="#" class="active notification-container"><img class="nav-icon" src="{{ asset('build/images/friends.png') }}" alt="">Friends{% if amountOfRequest > 0 %}<div class="notification-counter">{{ amountOfRequest }}</div> {% endif %}</a>
         </div>
         <div class="d-flex">
             <!-- Button trigger modal -->
@@ -34,11 +33,14 @@
                 <div class="nav-not-highlight"></div>
                 <img class="nav-icon" src="{{ asset('build/images/settings.png') }}" alt="">Profile</button>
         </div>
+        <div>
+            <a class='btn logout-button' href="/logout">Logout</a>
+        </div>
 
     </div>
     <div class="d-flex justify-content-between top">
-        <h2>Dashboard</h2>
-        <h1 class="title">4TheCuber.<span class="title-span">net</span></h1>
+        <h2>Friends</h2>
+        <h1 class="title">4TheCubers.<span class="title-span">net</span></h1>
     </div>
     <div class="main">
 
@@ -55,24 +57,26 @@
                     <img src="{{ asset('build/images/3dots.png') }}" alt="">
                 </div>
                 <ul>
+                    {% if friendslist is null %}
+                        <h2 style="margin-top: 200px; color:white;">You do not have any friends yet.</h2>
+                    {% else %}
+                        {% for friend in friendslist %} }}
 
-                    {% for friend in friendslist %} }}
-                    <li class="d-flex friendcontainer">
-                        <div style="position: relative">
-                        <img class="friends-avatar" src="{{ asset( friend.profilePicture ) }}" alt="">
-                            {% if date(friend.lastActive) < date('-10minutes') %}
-                                <div style="position: absolute; background-color:#970000" class="friendslist-dot"></div>
-                            {% else %}
-                                <div style="position: absolute;" class="friendslist-dot"></div>
-                            {% endif %}
-                        </div>
-                            <h2 class="friends-name">
-                                {{ friend.username }}
-                            </h2>
-                        <div class="dots"></div>
+                            <li class="d-flex friendcontainer">
+                                <div style="position: relative">
+                                    <img class="friends-avatar" src="{{ asset( friend.profilePicture ) }}" alt="">
+                                    {% if date(friend.lastActive) < date('-10minutes') %}
+                                        <div style="position: absolute; background-color:#970000" class="friendslist-dot"></div>
+                                    {% else %}
+                                        <div style="position: absolute;" class="friendslist-dot"></div>
+                                    {% endif %}
+                                </div>
+                                <h2 class="friends-name">{{ friend.username }}</h2>
+                                <div class="dots"></div>
 
-                    </li>
-                    {% endfor %}
+                            </li>
+                        {% endfor %}
+                    {% endif %}
                 </ul>
 
             </div>
@@ -120,6 +124,7 @@
                             <button class="dropdown-toggle friend-dropdown" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Friend requests
+                                {% if amountOfRequest > 0 %}<div class="friends-notification-counter">{{ amountOfRequest }}</div> {% endif %}
                             </button>
                             <div class="dropdown-menu friend-dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 {% if allRequestSenders|length > 0 %}
@@ -127,7 +132,7 @@
                                         <div class="d-flex dropdown-friends " id="{{ friend.id }}">
                                             <div>
                                                 <img class="dropdown-friend-avatar"
-                                                     src="{{ asset('build/images/friends-blue.png') }}" alt="">
+                                                     src="{{ asset(user.profilePicture )}}" alt="">
                                             </div>
                                             <div class="{{ friend.id }}">
                                                 <p class="friend-dropdown-name">{{ friend.username }}</p>
@@ -149,39 +154,12 @@
                             </div>
                     </div>
                 </div>
-                <div class="right-bottom">
+                <div class="friends-right-bottom">
+                    <h2 class="start-con">click on a friend to start a conversation!</h2>
                     <div class="textfield" id="out" style="overflow:auto">
+                        <h2 style= "position: fixed" class="friend-message-title"></h2>
                         <div id="try" class="text-messages">
-                            <div class="receiver">
-                                <h3>themats</h3>
-                                <p class="chat-message ">ik</p>
-                                <span class="timestamp">19.03</span>
-                            </div>
-                            <div class="sender">
-                                <h3>themats</h3>
-                                <p class="chat-message ">ik</p>
-                                <span class="timestamp">19.03</span>
-                            </div>
-                            <div class="receiver">
-                                <h3>themats</h3>
-                                <p class="chat-message ">ik</p>
-                                <span class="timestamp">19.03</span>
-                            </div>
-                            <div class="sender">
-                                <h3>themats</h3>
-                                <p class="chat-message ">ik</p>
-                                <span class="timestamp">19.03</span>
-                            </div>
-                            <div class="receiver">
-                                <h3>themats</h3>
-                                <p class="chat-message ">ik</p>
-                                <span class="timestamp">19.03</span>
-                            </div>
-                            <div class="sender">
-                                <h3>themats</h3>
-                                <p class="chat-message ">ik</p>
-                                <span class="timestamp">19.03</span>
-                            </div>
+
 
                         </div>
 
@@ -261,17 +239,114 @@
     {{ parent() }}
     <script>
 
+
         $(document).ready(function () {
-            $('.send-msg-button').click(function () {
-                $('#try').append('<div class="sender"><h3>themats</h3><p class="chat-message ">ik</p><span class="timestamp">19.03</span></div>')
-                var objDiv = document.getElementById("out");
-                objDiv.scrollTop = objDiv.scrollHeight;
+            let lastResponse;
+            let start;
+                start = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+
+            console.log(start);
+            let friendName;
+            $('.friendcontainer').one("click", function () {
+                $('.start-con').hide();
+                $('.friends-right-bottom').show();
+                $('.friends-right-bottom').animate({height:'72vh'},400);
+                $('.textfield').show();
+                $('.msg-text').show();
+            });
+            $('.friendcontainer').click(function () {
+                if(friendName !== $(this).find('.friends-name').html()){
+                    friendName = $(this).find('.friends-name').html();
+                    getMessages(friendName)
+                    getNewMessages(friendName, start);
+                    $('.friend-message-title').html(friendName);
+                }
+                // console.log($(this).val());
+            });
+            $('.send-msg-button').click(function (){
+                let messageBody = $('.msg-textarea').val();
+                if(messageBody === ''){
+                    $('.messages').addClass('friend-deleted-successfully');
+                    $( ".msg-textarea" ).effect( "shake", {times:3, distance: 5}, 500 );
+                    $('.messages').html("you can't send an empty message");
+                    setTimeout(function () {
+                        $('.messages').fadeTo(1000, 0.01, function () {
+                            $(this).slideUp(150, function () {
+                                $(this).remove();
+                            });
+                        });
+                    }, 3000)
+                }
+                sendMessage(messageBody);
+                $( ".msg-textarea" ).val('');
+
+
+                getMessages(friendName);
             })
+            function sendMessage(messageBody){
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax-send-message",
+                    dataType: 'JSON',
+                    data: {
+                        receiver: friendName,
+                        body: messageBody,
+                    },
+                    success: function (response) {
+                    }
+                })
+            }
+            function getMessages(friendName){
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax-get-message",
+                    dataType: 'JSON',
+                    data: {
+                        receiver: friendName,
+                    },
+                    success: function (response) {
+                        console.log('fok');
+                        if($('try'))
+                        $('#try').val('');
+                            for(let i = 0; i < response.length; i++){
+                                $('#try').append('<div class="'+response[i].type+'"><h3>'+response[i].title+'</h3><p class="chat-message ">'+response[i].body+'</p><span class="timestamp">'+response[i].timestamp+'</span></div>')
+                            }
+
+
+                        var objDiv = document.getElementById("out");
+                        objDiv.scrollTop = objDiv.scrollHeight;
+                    }
+                })
+            }
+            function getNewMessages(friendName, start){
+                $.ajax({
+                    type: "POST",
+                    url: "/ajax-get-new-message",
+                    dataType: 'JSON',
+                    data: {
+                        time: start,
+                        receiver: friendName,
+                    },
+                    success: function (response) {
+                        if(lastResponse !== response){
+                            if(Array.isArray(response) && response.length){
+                                for(let i = 0; i < response.length; i++){
+                                    $('#try').append('<div class="'+response[i].type+'"><h3>'+response[i].title+'</h3><p class="chat-message ">'+response[i].body+'</p><span class="timestamp">'+response[i].timestamp+'</span></div>')
+                                }
+                            }
+
+                            var objDiv = document.getElementById("out");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                            let lastResponse = response;
+                        }
+                    }
+                })
+            }
             let cubeType = $('#select-rank').val();
             getRankList();
             $('#select-rank').change(function () {
                 cubeType = $(this).val();
-                console.log(cubeType);
                 getRankList();
             });
             let requestType;
@@ -329,7 +404,7 @@
                 }
 
 
-            })
+            });
 
             function getRankList(){
                 $.ajax({
@@ -354,13 +429,48 @@
                             if (mSec < 10) mSec = "0" + mSec;
                             let time = (min + ":" + sec + ":" + mSec);
 
-                            table.append("<tr>" + "<td class='rank-counter'>"+counter+"</td>"+"<td><img src="+rank.profilePic+" alt='' class='friend-avatar'></td>" + "<td style='text-align: left' ><h2 class='rank-name'>"+ rank.username+ "</h2></td> <td><span class='rank-time'>"+time+"</span>"+"</td>");
+                            table.append("<tr>" + "<td class='rank-counter'>"+counter+"</td>"+"<td><img src="+rank.profilePic+" alt='' class='friend-avatar'></td>"+"<td style='text-align: left'><h2 class='rank-name'>"+rank.username+"</h2></td><td><span class='rank-time'>"+time+"</span>"+"</td>");
                             counter++;
-                        })
+                        });
                         $("#rank-table").append(table);
                     }
                 });
 
+            }
+            $(".add-friend-button").click(function(){
+                let username = $(".add-friend-input").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/send-friendRequest",
+                    dataType: 'JSON',
+                    data: {
+                        username: username
+                    },
+                    success: function (response) {
+                        if(response.status === "success") {
+                            $('.messages').addClass('friend-added-successfully');
+                            $('.messages').html(response.message);
+                            setTimeout(function () {
+                                $('.messages').fadeTo(1000, 0.01, function () {
+                                    $(this).slideUp(150, function () {
+                                        $(this).remove();
+                                    });
+                                });
+                            }, 3000)
+                            $('.my-modal').modal('hide');
+                        } else if(response.status === "error") {
+                            $(".error-user").html(response.message);
+                            $( ".my-modal" ).effect( "shake", {times:3, distance: 5}, 500 );
+
+                        }
+                    }
+                });
+            });
+            if(friendName !== ''){
+                setInterval(function() {
+                    start = new Date().toISOString().slice(0, 19).replace('T', ' ');
+                    getNewMessages(friendName, start);
+                }, 5000);
             }
         });
     </script>

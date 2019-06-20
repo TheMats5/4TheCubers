@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Solve;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -50,13 +51,24 @@ class SolveRepository extends ServiceEntityRepository
         return $solve;
     }
 
-    public function getAllSolvesByUser($user, $type)
+    public function getAllSolvesByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult();
+        return $results;
+    }
+    public function getAllSolvesByUserAndType($user, $type)
     {
         if('' == $type){
+            $type = '333';
             $results = $this->createQueryBuilder('solve')
                 ->where('solve.user = :user')
                 ->select('solve.time, solve.type')
                 ->setParameter('user', $user)
+                ->setParameter('type', $type)
                 ->getQuery()
                 ->getResult();
         } else {
@@ -81,13 +93,15 @@ class SolveRepository extends ServiceEntityRepository
         return $rows;
     }
 
-    public function getAllSolvesCountByUser($user)
+    public function getAllSolvesCountByUser($user, $type)
     {
         $results = $this->createQueryBuilder('solve')
             ->where('solve.user = :user')
             ->andWhere('solve.time IS NOT NULL' )
+            ->andWhere("solve.type = :type")
             ->select('count(solve.id)')
             ->setParameter('user', $user)
+            ->setParameter('type', $type)
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -96,26 +110,30 @@ class SolveRepository extends ServiceEntityRepository
 
     }
 
-    public function getAllPlus2CountByUser($user)
+    public function getAllPlus2CountByUser($user, $type)
     {
         $results = $this->createQueryBuilder('solve')
             ->where('solve.user = :user')
             ->andWhere('solve.plus2 = 1' )
+            ->andWhere("solve.type = :type")
             ->select('count(solve.id)')
             ->setParameter('user', $user)
+            ->setParameter('type', $type)
             ->getQuery()
             ->getSingleScalarResult();
 
         return $results;
     }
 
-    public function getAllDnfCountByUser($user)
+    public function getAllDnfCountByUser($user, $type)
     {
         $results = $this->createQueryBuilder('solve')
             ->where('solve.user = :user')
             ->andWhere('solve.time IS NULL' )
+            ->andWhere("solve.type = :type")
             ->select('count(solve.id)')
             ->setParameter('user', $user)
+            ->setParameter('type', $type)
             ->getQuery()
             ->getSingleScalarResult();
 
