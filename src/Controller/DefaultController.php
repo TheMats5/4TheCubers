@@ -104,9 +104,9 @@ class DefaultController extends AbstractController
     {
         $user = $this->getUser();
         $type = $request->request->get('type');
-        $allSolves = $solveRepository->getAllSolvesCountByUser($user, $type);
-        $allPlus2 = $solveRepository->getAllPlus2CountByUser($user, $type);
-        $allDNF = $solveRepository->getAllDnfCountByUser($user, $type);
+        $allSolves = $solveRepository->getAllSolvesCountByUserAndType($user, $type);
+        $allPlus2 = $solveRepository->getAllPlus2CountByUserAndType($user, $type);
+        $allDNF = $solveRepository->getAllDnfCountByUserAndType($user, $type);
 
         return new JsonResponse([$allSolves, $allPlus2, $allDNF]);
     }

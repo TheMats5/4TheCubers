@@ -93,7 +93,7 @@ class SolveRepository extends ServiceEntityRepository
         return $rows;
     }
 
-    public function getAllSolvesCountByUser($user, $type)
+    public function getAllSolvesCountByUserAndType($user, $type)
     {
         $results = $this->createQueryBuilder('solve')
             ->where('solve.user = :user')
@@ -110,7 +110,7 @@ class SolveRepository extends ServiceEntityRepository
 
     }
 
-    public function getAllPlus2CountByUser($user, $type)
+    public function getAllPlus2CountByUserAndType($user, $type)
     {
         $results = $this->createQueryBuilder('solve')
             ->where('solve.user = :user')
@@ -125,7 +125,7 @@ class SolveRepository extends ServiceEntityRepository
         return $results;
     }
 
-    public function getAllDnfCountByUser($user, $type)
+    public function getAllDnfCountByUserAndType($user, $type)
     {
         $results = $this->createQueryBuilder('solve')
             ->where('solve.user = :user')
@@ -194,6 +194,44 @@ class SolveRepository extends ServiceEntityRepository
         return floor($average);
     }
 
+    public function getAllSolvesCountByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.time IS NOT NULL' )
+            ->select('count(solve.id)')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $results;
+    }
+
+    public function getAllPlus2CountByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.plus2 = 1' )
+            ->select('count(solve.id)')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $results;
+    }
+
+    public function getAllDnfCountByUser($user)
+    {
+        $results = $this->createQueryBuilder('solve')
+            ->where('solve.user = :user')
+            ->andWhere('solve.time IS NULL' )
+            ->select('count(solve.id)')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $results;
+    }
     // /**
     //  * @return Solve[] Returns an array of Solve objects
     //  */

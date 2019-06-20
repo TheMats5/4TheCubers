@@ -8,6 +8,8 @@ use App\Repository\FriendsRepository;
 use App\Repository\SolveRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -30,5 +32,18 @@ class StatsController extends AbstractController
             'user' => $user,
             'amountOfRequest' => $amountOfRequest,
         ]);
+    }
+
+    /**
+     * @Route("/get-all-stats-chart", name="get-all-stats-chart")
+     */
+    public function getGeneralStats(SolveRepository $solveRepository)
+    {
+        $user = $this->getUser();
+        $allSolves = $solveRepository->getAllSolvesCountByUser($user);
+        $allPlus2 = $solveRepository->getAllPlus2CountByUser($user);
+        $allDNF = $solveRepository->getAllDnfCountByUser($user);
+
+        return new JsonResponse([$allSolves, $allPlus2, $allDNF]);
     }
 }
