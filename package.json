@@ -30,6 +30,7 @@
         "datatables.net-dt": "^1.10.19",
         "jquery": "^3.4.1",
         "jquery-columnizer": "^1.6.3",
+        "lodash": "^4.17.14",
         "popper.js": "^1.15.0",
         "scrambo": "^0.3.0",
         "webpack-jquery-ui": "^2.0.1"
